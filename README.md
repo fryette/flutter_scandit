@@ -17,6 +17,11 @@ samples, guidance on mobile development, and a full API reference.
 
 * Scan a barcode on demand
 
+
+## Platforms:
+- Android
+- iOS
+
 ## Installation
 
 First, add `flutter_scandit` as a [dependency in your pubspec.yaml file](https://flutter.io/using-packages/).
