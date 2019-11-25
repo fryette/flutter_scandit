@@ -45,10 +45,12 @@ public class BarcodeScanActivity
         ArrayList<String> passedSymbologies = intent.getStringArrayListExtra(FlutterScanditPlugin.SYMBOLOGIES_KEY);
         symbologies = new HashSet<>();
 
-        for(String symbologyName:passedSymbologies){
-            Symbology symbology = FlutterScanditPlugin.convertToSymbology(symbologyName);
-            if(symbology != null){
-                symbologies.add(symbology);
+        if(passedSymbologies != null) {
+            for (String symbologyName : passedSymbologies) {
+                Symbology symbology = FlutterScanditPlugin.convertToSymbology(symbologyName);
+                if (symbology != null) {
+                    symbologies.add(symbology);
+                }
             }
         }
         if(symbologies.isEmpty()){
