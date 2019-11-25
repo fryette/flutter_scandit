@@ -70,7 +70,7 @@ public class BarcodeScanActivity
 
     private void initializeAndStartBarcodeScanning() {
         // Create data capture context using your license key.
-        dataCaptureContext = DataCaptureContext.forLicenseKey(this.licenseKey);
+        dataCaptureContext = DataCaptureContext.forLicenseKey(this.licenseKey != null ? this.licenseKey : "");
 
         // Use the default camera and set it as the frame source of the context.
         // The camera is off by default and must be turned on to start streaming frames to the data
