@@ -4,4 +4,8 @@
 
 ## 0.0.2
 
-* handle bug for android initialisation in release mode (passing of symbologies)
+* handle bug for android initialisation in release mode (passing of symbologies and licensekey)
+
+## 0.0.3
+
+* Fix bug with Android intent filters (should not auto-launch scanner)

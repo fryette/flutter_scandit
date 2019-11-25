@@ -7,13 +7,8 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
 
         <activity
-            android:name=".BarcodeScanActivity"
+            android:name="za.co.palota.flutter_scandit.BarcodeScanActivity"
             android:screenOrientation="sensor">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
     </application>
 </manifest>
