@@ -1,5 +1,7 @@
 # Flutter Scandit
 
+[![pub package](https://img.shields.io/pub/v/flutter_scandit.svg)](https://pub.dev/packages/flutter_scandit) 
+
 Flutter Plugin for [Scandit](https://www.scandit.com/) Barcode Scanning
 
 ## Getting Started
@@ -57,14 +59,11 @@ BarcodeResult result = await FlutterScandit(symbologies: [
   Symbology.EAN13_UPCA,
   Symbology.CODE128,
   // - any other valid sumbologies
-], licenseKey: "-- ENTER YOUR SCANDIT LICENSE KEY HERE -")
+], licenseKey: "-- ENTER YOUR SCANDIT LICENSE KEY HERE -") // use your scandit key here
     .scanBarcode();
-setState(() {
-  barcode = result;
-});
+String barcodeData = result.data; // actual barcode string
 ```
 
 You should always pass the intended symbologies along with your call. It is also important to check that the symbologies you are selecting align with your Scandit license restrictions.
 
 Since the actual keys will be different per platoform, it is advised to abtract this out using environment variables or global configuration that can be changed per build/environment.
-
