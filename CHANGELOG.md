@@ -9,3 +9,7 @@
 ## 0.0.3
 
 * Fix bug with Android intent filters (should not auto-launch scanner)
+
+## 0.0.4
+
+* Handle potential bug with iOS navigation (pop navigationController on dismiss)
