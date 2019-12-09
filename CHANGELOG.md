@@ -13,3 +13,7 @@
 ## 0.0.4
 
 * Handle potential bug with iOS navigation (pop navigationController on dismiss)
+
+## 0.0.5
+
+* Handle iOS issues on scanner dismiss

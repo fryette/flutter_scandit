@@ -63,8 +63,9 @@ public class SwiftFlutterScanditPlugin: NSObject, FlutterPlugin {
                     
                     self.result = result
                     let viewController: BarcodeScannerViewController = BarcodeScannerViewController(with: (args[SwiftFlutterScanditPlugin.LICENSE_KEY]! as? String)!,symbologies: symbologies)
-                    viewController.delegate = self
                     let navigationController = UINavigationController(rootViewController: viewController)
+                    viewController.delegate = self
+                    
                     if hostViewController != nil {
                         let closeIconKey = registrar.lookupKey(forAsset: "assets/close.png", fromPackage: "flutter_scandit")
                         if let closeIconPath = Bundle.main.path(forResource: closeIconKey, ofType: nil) {

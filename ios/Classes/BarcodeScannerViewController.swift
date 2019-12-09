@@ -91,7 +91,6 @@ class BarcodeScannerViewController: UIViewController {
     
     @objc func backAction() -> Void {
         delegate?.didCancel()
-        self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -170,8 +169,7 @@ extension BarcodeScannerViewController: BarcodeCaptureListener {
         guard let barcodeData = barcode.data else {return}
         
         delegate?.didScanBarcodeWithResult(data: barcodeData, symbology: barcode.symbology)
-        self.navigationController?.popViewController(animated: true)
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: false, completion: nil)
     }
 
 }
