@@ -6,83 +6,77 @@ import 'package:flutter/services.dart';
 class FlutterScandit {
   static const MethodChannel _channel = const MethodChannel('flutter_scandit');
 
+  static const String _licenseKeyField = "licenseKey";
+  static const String _symbologiesField = "symbologies";
+
   final String licenseKey;
   final List<Symbology> symbologies;
 
+  static const Map<Symbology, String> _symbologyMap = {
+    Symbology.EAN13_UPCA: "EAN13_UPCA",
+    Symbology.UPCE: "UPCE",
+    Symbology.EAN8: "EAN8",
+    Symbology.CODE39: "CODE39",
+    Symbology.CODE93: "CODE93",
+    Symbology.CODE128: "CODE128",
+    Symbology.CODE11: "CODE11",
+    Symbology.CODE25: "CODE25",
+    Symbology.CODABAR: "CODABAR",
+    Symbology.INTERLEAVED_TWO_OF_FIVE: "INTERLEAVED_TWO_OF_FIVE",
+    Symbology.MSI_PLESSEY: "MSI_PLESSEY",
+    Symbology.QR: "QR",
+    Symbology.DATA_MATRIX: "DATA_MATRIX",
+    Symbology.AZTEC: "AZTEC",
+    Symbology.MAXI_CODE: "MAXI_CODE",
+    Symbology.DOT_CODE: "DOT_CODE",
+    Symbology.KIX: "KIX",
+    Symbology.RM4SCC: "RM4SCC",
+    Symbology.GS1_DATABAR: "GS1_DATABAR",
+    Symbology.GS1_DATABAR_EXPANDED: "GS1_DATABAR_EXPANDED",
+    Symbology.GS1_DATABAR_LIMITED: "GS1_DATABAR_LIMITED",
+    Symbology.PDF417: "PDF417",
+    Symbology.MICRO_PDF417: "MICRO_PDF417",
+    Symbology.MICRO_QR: "MICRO_QR",
+    Symbology.CODE32: "CODE32",
+    Symbology.LAPA4SC: "LAPA4SC",
+  };
+
   static const List<Symbology> defaultSymbologoes = [Symbology.EAN13_UPCA];
-  
-  FlutterScandit({@required this.licenseKey, this.symbologies = defaultSymbologoes});
+
+  FlutterScandit(
+      {@required this.licenseKey, this.symbologies = defaultSymbologoes});
 
   Future<BarcodeResult> scanBarcode() async {
-        Map<String,dynamic> arguments = {
-          "licenseKey": licenseKey,
-          "symbologies": symbologies.map(_getSymbologyString).toList()
-        };
+    Map<String, dynamic> arguments = {
+      _licenseKeyField: licenseKey,
+      _symbologiesField: symbologies.map(getSymbologyString).toList()
+    };
 
-        var result = await _channel.invokeMethod('scanBarcode',arguments);
-        print(result);
-        final Map<String, dynamic> barcode = Map<String, dynamic>.from(result);
-        
+    var result = await _channel.invokeMethod('scanBarcode', arguments);
+    final Map<String, dynamic> barcode = Map<String, dynamic>.from(result);
+
     return BarcodeResult(
-        data: barcode["data"], symbology: barcode["symbology"]);
+      data: barcode["data"],
+      symbology: barcode["symbology"],
+    );
   }
 
-  static String _getSymbologyString(Symbology symbology) {
-    switch (symbology) {
-      case Symbology.EAN13_UPCA:
-        return "EAN13_UPCA";
-      case Symbology.UPCE:
-        return "UPCE";
-      case Symbology.EAN8:
-        return "EAN8";
-      case Symbology.CODE39:
-        return "CODE39";
-      case Symbology.CODE93:
-        return "CODE93";
-      case Symbology.CODE128:
-        return "CODE128";
-      case Symbology.CODE11:
-        return "CODE11";
-      case Symbology.CODE25:
-        return "CODE25";
-      case Symbology.CODABAR:
-        return "CODABAR";
-      case Symbology.INTERLEAVED_TWO_OF_FIVE:
-        return "INTERLEAVED_TWO_OF_FIVE";
-      case Symbology.MSI_PLESSEY:
-        return "MSI_PLESSEY";
-      case Symbology.QR:
-        return "QR";
-      case Symbology.DATA_MATRIX:
-        return "DATA_MATRIX";
-      case Symbology.AZTEC:
-        return "AZTEC";
-      case Symbology.MAXI_CODE:
-        return "MAXI_CODE";
-      case Symbology.DOT_CODE:
-        return "DOT_CODE";
-      case Symbology.KIX:
-        return "KIX";
-      case Symbology.RM4SCC:
-        return "RM4SCC";
-      case Symbology.GS1_DATABAR:
-        return "GS1_DATABAR";
-      case Symbology.GS1_DATABAR_EXPANDED:
-        return "GS1_DATABAR_EXPANDED";
-      case Symbology.GS1_DATABAR_LIMITED:
-        return "GS1_DATABAR_LIMITED";
-      case Symbology.PDF417:
-        return "PDF417";
-      case Symbology.MICRO_PDF417:
-        return "MICRO_PDF417";
-      case Symbology.MICRO_QR:
-        return "MICRO_QR";
-      case Symbology.CODE32:
-        return "CODE32";
-      case Symbology.LAPA4SC:
-        return "LAPA4SC";
-      default:
-        return symbology.toString();
+  static String getSymbologyString(Symbology symbology) {
+    if (_symbologyMap.containsKey(symbology)) {
+      return _symbologyMap[symbology];
+    } else {
+      return symbology.toString();
+    }
+  }
+
+  static Symbology getSymbology(String symbologyString) {
+    if (_symbologyMap.containsValue(symbologyString)) {
+      return _symbologyMap.entries
+          .firstWhere((MapEntry<Symbology, String> entry) =>
+              entry.value == symbologyString)
+          .key;
+    } else {
+      return null;
     }
   }
 }
