@@ -9,7 +9,7 @@ import ScanditBarcodeCapture
 
 
 protocol BarcodeScannerDelegate: class {
-    func didScanBarcodeWithResult(data: String, symbology: String)
+    func didScanBarcodeWithResult(data: String, symbology: Symbology)
     func didCancel()
     func didFailWithErrorCode(code: String)
 }
@@ -91,6 +91,7 @@ class BarcodeScannerViewController: UIViewController {
     
     @objc func backAction() -> Void {
         delegate?.didCancel()
+        self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -167,9 +168,9 @@ extension BarcodeScannerViewController: BarcodeCaptureListener {
         // codes to be scanned more than once.
         // Get the human readable name of the symbology and assemble the result to be shown.
         guard let barcodeData = barcode.data else {return}
-        let symbology = SymbologyDescription(symbology: barcode.symbology).identifier
         
-        delegate?.didScanBarcodeWithResult(data: barcodeData, symbology: symbology)
+        delegate?.didScanBarcodeWithResult(data: barcodeData, symbology: barcode.symbology)
+        self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true, completion: nil)
     }
 
