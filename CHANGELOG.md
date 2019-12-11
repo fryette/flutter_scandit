@@ -17,3 +17,7 @@
 ## 0.0.5
 
 * Handle iOS issues on scanner dismiss
+
+## 0.0.6
+
+* Dismiss on correct thread
