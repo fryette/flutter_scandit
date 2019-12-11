@@ -168,8 +168,12 @@ extension BarcodeScannerViewController: BarcodeCaptureListener {
         // Get the human readable name of the symbology and assemble the result to be shown.
         guard let barcodeData = barcode.data else {return}
         
-        delegate?.didScanBarcodeWithResult(data: barcodeData, symbology: barcode.symbology)
-        self.dismiss(animated: false, completion: nil)
+        
+        DispatchQueue.main.async {
+            self.delegate?.didScanBarcodeWithResult(data: barcodeData, symbology: barcode.symbology)
+            self.dismiss(animated: false, completion: nil)
+        }
+       
     }
 
 }
