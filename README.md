@@ -4,16 +4,10 @@
 
 Flutter Plugin for [Scandit](https://www.scandit.com/) Barcode Scanning
 
+
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Check out the [example](https://github.com/PalotaCompany/flutter_scandit/tree/master/example) directory for a sample app using Firebase Cloud Messaging.
 
 ## Features:
 
@@ -59,11 +53,14 @@ BarcodeResult result = await FlutterScandit(symbologies: [
   Symbology.EAN13_UPCA,
   Symbology.CODE128,
   // - any other valid sumbologies
-], licenseKey: "-- ENTER YOUR SCANDIT LICENSE KEY HERE -") // use your scandit key here
+], licenseKey: "-- ENTER YOUR SCANDIT LICENSE KEY HERE --") // use your scandit key here
     .scanBarcode();
 String barcodeData = result.data; // actual barcode string
+Symbology scannedSymbology = result.symbology; // the symbology which was scanned
 ```
+
+Make sure to wrap the invocation of the method in a try catch block to handle any `BarcodeScanException` exceptions that may occur.
 
 You should always pass the intended symbologies along with your call. It is also important to check that the symbologies you are selecting align with your Scandit license restrictions.
 
-Since the actual keys will be different per platoform, it is advised to abtract this out using environment variables or global configuration that can be changed per build/environment.
+Since the actual licence keys may be different per platoform, it is advised to abtract this out using environment variables or global configuration that can be changed per build/environment.
