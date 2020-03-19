@@ -21,3 +21,9 @@
 ## 0.0.6
 
 * Dismiss on correct thread
+
+## 0.1.0
+
+* Support Flutter v1.12.13+ Plugins 
+* Use Symbology enums on return
+* Better exception management
