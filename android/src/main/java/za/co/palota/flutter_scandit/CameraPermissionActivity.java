@@ -45,6 +45,8 @@ public abstract class CameraPermissionActivity extends AppCompatActivity {
             if (!permissionDeniedOnce) {
                 // It's clear why the camera is required. We don't need to give a detailed reason.
                 requestPermissions(new String[] { CAMERA_PERMISSION }, CAMERA_PERMISSION_REQUEST);
+            } else {
+                onCameraPermissionDenied();
             }
 
         } else {
