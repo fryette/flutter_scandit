@@ -3,12 +3,12 @@ PODS:
   - flutter_scandit (0.0.1):
     - Flutter
     - ScanditBarcodeCapture (~> 6.1)
-  - ScanditBarcodeCapture (6.1.0):
-    - ScanditCaptureCore (= 6.1.0)
-  - ScanditCaptureCore (6.1.0)
+  - ScanditBarcodeCapture (6.3.1):
+    - ScanditCaptureCore (= 6.3.1)
+  - ScanditCaptureCore (6.3.1)
 
 DEPENDENCIES:
-  - Flutter (from `.symlinks/flutter/ios`)
+  - Flutter (from `Flutter`)
   - flutter_scandit (from `.symlinks/plugins/flutter_scandit/ios`)
 
 SPEC REPOS:
@@ -18,16 +18,16 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Flutter:
-    :path: ".symlinks/flutter/ios"
+    :path: Flutter
   flutter_scandit:
     :path: ".symlinks/plugins/flutter_scandit/ios"
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_scandit: 9506d411cd63c3c804ef34556b47d9372968c09e
-  ScanditBarcodeCapture: af76f1775b760e99d6ceb4f05336adea50ea91b1
-  ScanditCaptureCore: 344dbe643f1074eca1b111c6b06a9bb2a2f1d3a4
+  ScanditBarcodeCapture: 7b9f8d2a402ffa0c71058edfd9e2ad4f19278768
+  ScanditCaptureCore: c6ae786a62249819fceba441d05807d31e3a7674
 
-PODFILE CHECKSUM: b6a0a141693093b304368d08511b46cf3d1d0ac5
+PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
 
 COCOAPODS: 1.8.4
