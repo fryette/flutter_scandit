@@ -3,9 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'flutter_scandit.dart';
-import 'magic_view_controller.dart';
-
-typedef void MagicViewCreatedCallback(MagicViewController controller);
 
 class Scandit extends StatefulWidget {
   static const StandardMessageCodec _decoder = StandardMessageCodec();

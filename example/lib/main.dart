@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_scandit/flutter_scandit.dart';
-import 'package:flutter_scandit/magic_view.dart';
-import 'package:flutter_scandit/magic_view_controller.dart';
+import 'package:flutter_scandit/scandit.dart';
 
 void main() => runApp(MyApp());
 
@@ -92,7 +89,6 @@ class MagicScreen extends StatefulWidget {
 }
 
 class _MagicScreenState extends State<MagicScreen> {
-  MagicViewController _magicViewController;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,11 +120,7 @@ class _MagicScreenState extends State<MagicScreen> {
         ],
       ),
       floatingActionButton: IconButton(
-        onPressed: () {
-          _magicViewController.receiveFromFlutter(
-            'hello',
-          );
-        },
+        onPressed: () {},
         icon: Container(),
       ),
     );
