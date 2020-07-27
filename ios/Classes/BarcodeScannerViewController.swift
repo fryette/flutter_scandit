@@ -78,7 +78,7 @@ class BarcodeScannerViewController: UIViewController {
         backButton.setTitle("", for: .normal)
         backButton.setTitleColor(.white, for: .normal)
         backButton.setImage(closeImage, for: .normal)
-        backButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4)
+        backButton.imageEdgeInsets = UIEdgeInsets.init(top: 4,left: 4,bottom: 4, right: 4)
         backButton.tintColor = .white
         backButton.imageView?.contentMode = .scaleAspectFit
         backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)

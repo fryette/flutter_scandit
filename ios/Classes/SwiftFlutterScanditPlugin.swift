@@ -251,7 +251,7 @@ extension ScanditView: BarcodeCaptureListener {
         // Stop recognizing barcodes for as long as we are displaying the result. There won't be any new results until
         // the capture mode is enabled again. Note that disabling the capture mode does not stop the camera, the camera
         // continues to stream frames until it is turned off.
-        barcodeCapture.isEnabled = false
+        barcodeCapture.isEnabled = true
         // If you are not disabling barcode capture here and want to continue scanning, consider setting the
         // codeDuplicateFilter when creating the barcode capture settings to around 500 or even -1 if you do not want
         // codes to be scanned more than once.
