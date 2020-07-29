@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_scandit/flutter_scandit.dart';
 import 'package:flutter_scandit/scandit.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -9,42 +8,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BarcodeScanPage(),
+      home: MagicScreen(),
     );
-  }
-}
-
-class BarcodeScanPage extends StatefulWidget {
-  @override
-  _BarcodeScanPageState createState() => _BarcodeScanPageState();
-}
-
-class _BarcodeScanPageState extends State<BarcodeScanPage> {
-  BarcodeResult barcode;
-
-  Future<void> _showError(BuildContext context, String errorMessage) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Barcode scan error'),
-          content: Text(errorMessage ?? "Unknown error"),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MagicScreen();
   }
 }
 

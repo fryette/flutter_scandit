@@ -4,6 +4,7 @@ import ScanditCaptureCore
 import ScanditBarcodeCapture
 import Foundation
 import WebKit
+
 public class SwiftFlutterScanditPlugin: NSObject, FlutterPlugin {
     private static var VIEW_ID = "ScanditPlatformView"
 
@@ -39,6 +40,7 @@ public class ScanditViewFactory: NSObject, FlutterPlatformViewFactory {
     }
 
 }
+
 public class ScanditPlatformView: NSObject, FlutterPlatformView {
     private static var LICENSE_KEY = "licenseKey"
     private static var SYMBOLOGIES_KEY = "symbologies"
@@ -82,6 +84,7 @@ public class ScanditPlatformView: NSObject, FlutterPlatformView {
         self.messenger = messenger
         self.viewId = viewId
         self.channel = FlutterMethodChannel(name: ScanditPlatformView.SCANDIT_CHANNEL_NAME, binaryMessenger: messenger)
+        
         let dict = args as! NSDictionary
         var symbologies = [Symbology]()
         if let passedSymbologies = dict[ScanditPlatformView.SYMBOLOGIES_KEY] as? [String] {
@@ -101,6 +104,14 @@ public class ScanditPlatformView: NSObject, FlutterPlatformView {
         self.scanditView = ScanditView(with: (dict[ScanditPlatformView.LICENSE_KEY]! as? String)!,symbologies: symbologies)
         super.init()
         self.scanditView.delegate = self;
+        
+        self.channel.setMethodCallHandler({
+          [weak self] (call: FlutterMethodCall, result: FlutterResult) -> Void in
+          guard call.method == "START_CAPTURING" else {
+            return
+          }
+          self?.scanditView.startBarcodeCapturing()
+        })
     }
 
     public func sendFromNative(_ value: Dictionary<String, String?>) {
@@ -126,8 +137,8 @@ public class ScanditPlatformView: NSObject, FlutterPlatformView {
     private static func convertToSymbology(name: String) -> Symbology? {
         return SYMBOLOGIES_MAP[name];
     }
-
 }
+
 extension ScanditPlatformView: BarcodeScannerDelegate {
     func didScanBarcodeWithResult(data: String, symbology: Symbology) {
         sendFromNative(["data": data, "symbology": ScanditPlatformView.convertSymbologyToString(symbology:symbology)])
@@ -146,6 +157,7 @@ extension ScanditPlatformView: BarcodeScannerDelegate {
     }
 
 }
+
 class ScanditView: UIView {
     weak var delegate: BarcodeScannerDelegate?
     var licenseKey: String!
@@ -210,13 +222,7 @@ class ScanditView: UIView {
         for symbology in self.symbologies {
             settings.set(symbology: symbology, enabled: true)
         }
-        // Some linear/1d barcode symbologies allow you to encode variable-length data. By default, the Scandit
-        // Data Capture SDK only scans barcodes in a certain length range. If your application requires scanning of one
-        // of these symbologies, and the length is falling outside the default range, you may need to adjust the "active
-        // symbol counts" for this symbology. This is shown in the following few lines of code for one of the
-        // variable-length symbologies.
-        let symbologySettings = settings.settings(for: .code39)
-        symbologySettings.activeSymbolCounts = Set(7...20) as Set<NSNumber>
+
         // Create new barcode capture mode with the settings from above.
         barcodeCapture = BarcodeCapture(context: context, settings: settings)
         //barcodeCapture.feedback.success = Feedback(vibration: nil, sound: Sound.default)
@@ -232,15 +238,13 @@ class ScanditView: UIView {
         captureView = DataCaptureView(context: context, frame: bounds)
         captureView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(captureView)
-        // Add a barcode capture overlay to the data capture view to render the location of captured barcodes on top of
-        // the video preview. This is optional, but recommended for better visual feedback.
-        
-        //overlay = BarcodeCaptureOverlay(barcodeCapture: barcodeCapture)
-        //overlay.viewfinder = RectangularViewfinder()
-        //captureView.addOverlay(overlay)
     }
 
+    public func startBarcodeCapturing() -> Void {
+        self.barcodeCapture.isEnabled = true
+    }
 }
+
 extension ScanditView: BarcodeCaptureListener {
     func barcodeCapture(_ barcodeCapture: BarcodeCapture,
                         didScanIn session: BarcodeCaptureSession,
@@ -248,20 +252,17 @@ extension ScanditView: BarcodeCaptureListener {
         guard let barcode = session.newlyRecognizedBarcodes.first else {
             return
         }
-        // Stop recognizing barcodes for as long as we are displaying the result. There won't be any new results until
-        // the capture mode is enabled again. Note that disabling the capture mode does not stop the camera, the camera
-        // continues to stream frames until it is turned off.
-        barcodeCapture.isEnabled = true
-        // If you are not disabling barcode capture here and want to continue scanning, consider setting the
-        // codeDuplicateFilter when creating the barcode capture settings to around 500 or even -1 if you do not want
-        // codes to be scanned more than once.
-        // Get the human readable name of the symbology and assemble the result to be shown.
         guard let barcodeData = barcode.data else {
             return
         }
+
+        // Stop recognizing barcodes for as long as we are displaying the result. There won't be any new results until
+        // the capture mode is enabled again. Note that disabling the capture mode does not stop the camera, the camera
+        // continues to stream frames until it is turned off.
+        barcodeCapture.isEnabled = false
+
         DispatchQueue.main.async {
             self.delegate?.didScanBarcodeWithResult(data: barcodeData, symbology: barcode.symbology)
-            //self.dismiss(animated: false, completion: nil)
         }
     }
 }
