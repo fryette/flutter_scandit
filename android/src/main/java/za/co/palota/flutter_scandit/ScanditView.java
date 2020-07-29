@@ -115,7 +115,7 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
                 _camera.applySettings(BarcodeCapture.createRecommendedCameraSettings());
                 _dataCaptureContext.setFrameSource(_camera);
             } else {
-                throw new IllegalStateException("Sample depends on a camera, which failed to initialize.");
+                handleError(MethodCallHandlerImpl.ERROR_NO_CAMERA);
             }
 
             // The barcode capturing process is configured through barcode capture settings

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -39,6 +40,7 @@ class _ScanditState extends State<Scandit> {
       "CAMERA_INITIALISATION_ERROR";
   static const String _errorNoCamera = "NO_CAMERA";
   static const String _errorUnknown = "UNKNOWN_ERROR";
+
   @override
   void initState() {
     super.initState();
@@ -53,6 +55,10 @@ class _ScanditState extends State<Scandit> {
 
   @override
   Widget build(BuildContext context) {
+    return _buildScanditPlatformView();
+  }
+
+  Widget _buildScanditPlatformView() {
     Map<String, dynamic> arguments = {
       _licenseKeyField: widget.licenseKey,
       _symbologiesField:
@@ -89,6 +95,13 @@ class _ScanditState extends State<Scandit> {
         );
         break;
       case 'ERROR_CODE':
+        final exception = _resolveException(call.arguments as String);
+        widget.onError(exception);
+        break;
+      case 'info':
+        print(call.arguments as String);
+        break;
+      default:
         final exception = _resolveException(call.arguments as String);
         widget.onError(exception);
         break;
