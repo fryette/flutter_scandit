@@ -14,11 +14,10 @@ import java.util.Map;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.PluginRegistry;
 
-public final class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler, PluginRegistry.ActivityResultListener {
+public final class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
     private static final String TAG = FlutterScanditPlugin.class.getSimpleName();
-    private static final String PLUGIN_CHANNEL = "flutter_scandit";
+    private static final String PLUGIN_CHANNEL = "ScanditView";
 
     // activity request
     private static final int REQUEST_CODE_BARCODE_CAPTURE = 1111;
@@ -38,19 +37,17 @@ public final class MethodCallHandlerImpl implements MethodChannel.MethodCallHand
     public static final String ERROR_UNKNOWN = "UNKNOWN_ERROR";
 
 
-    private final Activity activity;
-    private final BinaryMessenger messenger;
-    private final MethodChannel methodChannel;
+    private final BinaryMessenger _messenger;
+    private final MethodChannel _methodChannel;
 
     private MethodChannel.Result pendingActivityResult;
 
 
-    public MethodCallHandlerImpl(Activity activity, BinaryMessenger messenger) {
-        this.activity = activity;
-        this.messenger = messenger;
+    public MethodCallHandlerImpl(BinaryMessenger messenger) {
+        _messenger = messenger;
 
-        methodChannel = new MethodChannel(messenger, PLUGIN_CHANNEL);
-        methodChannel.setMethodCallHandler(this);
+        _methodChannel = new MethodChannel(messenger, PLUGIN_CHANNEL);
+        _methodChannel.setMethodCallHandler(this);
     }
 
 
@@ -80,40 +77,40 @@ public final class MethodCallHandlerImpl implements MethodChannel.MethodCallHand
             if (symbologies.isEmpty()) {
                 symbologies.add(Symbology.EAN13_UPCA); // default
             }
-            startBarcodeScanner((String) args.get(PARAM_LICENSE_KEY), passedSymbologies, result);
+            // startBarcodeScanner((String) args.get(PARAM_LICENSE_KEY), passedSymbologies, result);
         } else {
             result.error(ERROR_NO_LICENSE, null, null);
         }
     }
 
-    private void startBarcodeScanner(String licenseKey, ArrayList<String> symbologies, MethodChannel.Result result) {
-        try {
-            this.pendingActivityResult = result;
-            Intent intent = new Intent(activity, BarcodeScanActivity.class);
-            intent.putExtra(PARAM_LICENSE_KEY, licenseKey);
-            intent.putStringArrayListExtra(PARAM_SYMBOLOGIES, symbologies);
-            activity.startActivityForResult(intent, REQUEST_CODE_BARCODE_CAPTURE);
-        } catch (Exception e) {
-            result.error(ERROR_UNKNOWN, e.getMessage(), null);
-            this.pendingActivityResult = null;
-            Log.e(TAG, METHOD_SCAN_BARCODE + ": " + e.getLocalizedMessage());
-        }
-    }
-
-    @Override
-    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_CODE_BARCODE_CAPTURE:
-                if (this.pendingActivityResult != null) { // if we are awaiting a response
-                    handleBarcodeScanResult(resultCode, data, this.pendingActivityResult);
-                    this.pendingActivityResult = null; // reset
-                }
-                break;
-            default:
-                return false;
-        }
-        return true;
-    }
+//    private void startBarcodeScanner(String licenseKey, ArrayList<String> symbologies, MethodChannel.Result result) {
+//        try {
+//            this.pendingActivityResult = result;
+//            Intent intent = new Intent(activity, BarcodeScanActivity.class);
+//            intent.putExtra(PARAM_LICENSE_KEY, licenseKey);
+//            intent.putStringArrayListExtra(PARAM_SYMBOLOGIES, symbologies);
+//            activity.startActivityForResult(intent, REQUEST_CODE_BARCODE_CAPTURE);
+//        } catch (Exception e) {
+//            result.error(ERROR_UNKNOWN, e.getMessage(), null);
+//            this.pendingActivityResult = null;
+//            Log.e(TAG, METHOD_SCAN_BARCODE + ": " + e.getLocalizedMessage());
+//        }
+//    }
+//
+//    @Override
+//    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+//        switch (requestCode) {
+//            case REQUEST_CODE_BARCODE_CAPTURE:
+//                if (this.pendingActivityResult != null) { // if we are awaiting a response
+//                    handleBarcodeScanResult(resultCode, data, this.pendingActivityResult);
+//                    this.pendingActivityResult = null; // reset
+//                }
+//                break;
+//            default:
+//                return false;
+//        }
+//        return true;
+//    }
 
     private void handleBarcodeScanResult(int resultCode, Intent data, MethodChannel.Result channelResult) {
         if (resultCode == Activity.RESULT_OK) {
@@ -139,7 +136,7 @@ public final class MethodCallHandlerImpl implements MethodChannel.MethodCallHand
     }
 
     void stopListening() {
-        methodChannel.setMethodCallHandler(null);
+        _methodChannel.setMethodCallHandler(null);
     }
 
     public static Symbology convertToSymbology(String name) {

@@ -89,6 +89,8 @@ class MagicScreen extends StatefulWidget {
 }
 
 class _MagicScreenState extends State<MagicScreen> {
+  String _message = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,10 +104,17 @@ class _MagicScreenState extends State<MagicScreen> {
               scanned: (result) {
                 setState(() {
                   print(result.data);
+                  _message = result.data;
+                });
+              },
+              onError: (e) {
+                setState(() {
+                  print(e.message);
+                  _message = e.message;
                 });
               },
               licenseKey:
-                  "AV7ODgNVHAIAO8A7TAFjY2kQyTwrDPsAxSlvdyFpis0kMaiCsHXxyjxEDzvPKnez3mJi7RNGsy3BUaCaC2NzxLxDXVkmOW8kWHu5LNdQuIuSaqy0g1nReIVLZEvrcHV7xmvhTgMHqoETEDMRnSONdLkEyU7T1GpNmumRuO6Dk71/eEPt6FHb09ynPETZ+EO/Wh/01q3KCAsX5KawrtnknGlaveCz2HAXrFXWSystNBJO7rSnZTJdyIFF9ITFTUsLhuXeyWN2sZwOvaVm1L38lpDQMZLUnPGq6KG8fazsN0uCAOxQMr4ETk3dfw9aN9GqE2BKaeoLl6ZXdSDTwjUhygfISaUVt09l4Ko6OU4YcdUkp2AZPAgv98OUOCxcEadq4cn7tqg2p4Fum2x043EzX02zfTZgC4/UryEGcxXgBboyZMyViDbojXHkoPxN+Ba9kwWGWHJtoYu9GfebhyVjft0fiEguPolxp9SoRTjnq4UpnE//O9HYAuEBD8/6Nr+d10Jf+hn+MzE0mRLPsGFOmBPDmPMJi6+BYob808yhvJ9qTS2IyACE/wtKB2SZdawTC7wh2sbA/H9IWEDrbpxP7HaT2G79GZvx2VkxoNQtSWgR8TqHPtlo4Wjv0xOBPf92RceYz1GX+MtyIcglnh5d83vq04afYxpvZqhHZJiIJCUKkyzLXUPZMB0bBEIzQkntjdE/55u+kFY4aYeO/T0KwRSlafTeGbISUPrP2ozwZRa2CD41Btk2aCWlH+hSTGojbOEXzYNjPrBQQqMKt/0mJ+WA/s3wRNNHE67+HG/4OmEUr9sX6n9de35wO9QZ22JMpJpDow==",
+                  "AYBu8TlYJtB6DFps/Dgz/cIdIvvrMIv3k3Eal8Q1qNH+dNvyfVjOOT9/nzbTeJxiIET6TjBi68GET/9HVkHlVf9FAmdYdMHic38yMnVECnM/aqFtjyaLPaoN+oWqBco/zCTtT4URRQJFlZXwNIU3szPt8+mS+20bgJtQKvd9O5wHuRFgsB8IBxcTdURFz1hQPkF89jkl+A/g1/3GZHeuunISOetQspJ6ER+wVOdA54kMJ42Us6l9m10qsuTG7NfwsL+4ZX7HuSMJUmfIJx/YQSwan7es9biqrGb+K9cIZPPyqM6LWsqDls6SnKi8g5sijcQE+l7B3Gnu5hBv8QjcFtI7s3YA45iAPB47mt9ao+Nq9+AkX7n8nB41ykhyDVoHI8BaouyxihgxGFe7YUy5tBTo6XnnJxXfwgtW3O798UIM8yFF4QxVnL9rIleqT49XOWKNDr8uK7e03syPglLNHefdcY2mb5oOROkayREXut+psjkVhY3au6TUDhy9gqKvoWGp2dkJZcwL+yPdjtgPEDrHCT23L5Rvfj0p4ja85oTSuekHL/zeKxguWNs1lSP1ir4e9SFX5mhF+8NV7xyrDyAnqkwo07AReu8SiTTERURb1rQhdltVY1+ZcjIKhXRtYsD1BEhwWmQxSjVlZUNXgGc70wOY6yXZgcFXb3KEIFDnnVVnfGdDribMR4R4in2YHnNXkn8dT0vLVhzskEcuAXSocYQON4/Kf0FQWbOsxysdx0QPDmUVK8s5/Ld6aF34/q0GVN3mhVWxd9CqU+g62Km6987xej3k6RFIqmCHvGwniEPA94oy",
             ),
           ),
           Center(
@@ -116,7 +125,8 @@ class _MagicScreenState extends State<MagicScreen> {
                   borderRadius: BorderRadius.circular(40),
                   border: Border.all(color: Colors.teal),
                 )),
-          )
+          ),
+          Center(child: Text(_message)),
         ],
       ),
       floatingActionButton: IconButton(
