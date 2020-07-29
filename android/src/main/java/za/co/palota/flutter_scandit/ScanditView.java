@@ -9,7 +9,6 @@ import com.scandit.datacapture.barcode.capture.BarcodeCapture;
 import com.scandit.datacapture.barcode.capture.BarcodeCaptureListener;
 import com.scandit.datacapture.barcode.capture.BarcodeCaptureSession;
 import com.scandit.datacapture.barcode.capture.BarcodeCaptureSettings;
-import com.scandit.datacapture.barcode.capture.SymbologySettings;
 import com.scandit.datacapture.barcode.data.Barcode;
 import com.scandit.datacapture.barcode.data.Symbology;
 import com.scandit.datacapture.core.capture.DataCaptureContext;
@@ -21,10 +20,8 @@ import com.scandit.datacapture.core.ui.DataCaptureView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import io.flutter.plugin.common.BinaryMessenger;
@@ -35,8 +32,8 @@ import io.flutter.plugin.platform.PlatformView;
 public class ScanditView implements PlatformView, MethodChannel.MethodCallHandler, BarcodeCaptureListener {
     private final MethodChannel _methodChannel;
     private final Context _context;
-    public String _licenceKey;
-    HashSet<Symbology> _symbologies = new HashSet<>();
+    private final HashSet<Symbology> _symbologies = new HashSet<>();
+    private String _licenceKey;
 
     private DataCaptureContext _dataCaptureContext;
     private BarcodeCapture _barcodeCapture;
@@ -48,38 +45,27 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
         _methodChannel = new MethodChannel(messenger, "ScanditView");
         _methodChannel.setMethodCallHandler(this);
 
-        parseInitializationArguments(args);
-
-        _methodChannel.invokeMethod("info", "Starting init process");
-
-        initializeAndStartBarcodeScanning();
-
-        _methodChannel.invokeMethod("info", "Completed init process");
-    }
-
-    private void parseInitializationArguments(Object arguments) {
-        Map<String, Object> argsMap = (Map<String, Object>) arguments;
-        if (argsMap.containsKey(MethodCallHandlerImpl.PARAM_LICENSE_KEY)) {
-            _licenceKey = (String) argsMap.get(MethodCallHandlerImpl.PARAM_LICENSE_KEY);
-
-            ArrayList<String> passedSymbologies = (ArrayList<String>) argsMap.get(MethodCallHandlerImpl.PARAM_SYMBOLOGIES);
-            for (String symbologyName : passedSymbologies) {
-                Symbology symbology = MethodCallHandlerImpl.convertToSymbology(symbologyName);
-                if (symbology != null) {
-                    _symbologies.add(symbology);
-                }
-            }
-            if (_symbologies.isEmpty()) {
-                _symbologies.add(Symbology.EAN13_UPCA); // default
-            }
-        } else {
-            handleError(MethodCallHandlerImpl.ERROR_NO_LICENSE);
+        if (parseInitializationArguments(args))
+        {
+            initializeAndStartBarcodeScanning();
         }
     }
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
         switch (call.method) {
+            case "STOP_CAMERA_AND_CAPTURING":
+                stopCameraAndCapturing();
+                result.success("stopped");
+                break;
+            case "START_CAMERA_AND_CAPTURING":
+                startCameraAndCapturing();
+                result.success("started");
+                break;
+            case "START_CAPTURING":
+                startBarcodeCapturing();
+                result.success("started");
+                break;
             default:
                 result.notImplemented();
         }
@@ -98,8 +84,30 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
             _barcodeCapture.removeListener(this);
             _dataCaptureContext.removeMode(_barcodeCapture);
         }
-        // dispose the view?
-        //_dataCaptureView
+
+        _dataCaptureView = null;
+    }
+
+    private boolean parseInitializationArguments(Object arguments) {
+        Map<String, Object> argsMap = (Map<String, Object>) arguments;
+        if (argsMap.containsKey(MethodCallHandlerImpl.PARAM_LICENSE_KEY)) {
+            _licenceKey = (String) argsMap.get(MethodCallHandlerImpl.PARAM_LICENSE_KEY);
+
+            ArrayList<String> passedSymbologies = (ArrayList<String>) argsMap.get(MethodCallHandlerImpl.PARAM_SYMBOLOGIES);
+            for (String symbologyName : passedSymbologies) {
+                Symbology symbology = MethodCallHandlerImpl.convertToSymbology(symbologyName);
+                if (symbology != null) {
+                    _symbologies.add(symbology);
+                }
+            }
+            if (_symbologies.isEmpty()) {
+                _symbologies.add(Symbology.EAN13_UPCA); // default
+            }
+            return  true;
+        } else {
+            handleError(MethodCallHandlerImpl.ERROR_NO_LICENSE);
+            return false;
+        }
     }
 
     private void initializeAndStartBarcodeScanning() {
@@ -111,7 +119,6 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
             // capture context for recognition.
             _camera = Camera.getDefaultCamera();
             if (_camera != null) {
-                // Use the recommended camera settings for the BarcodeCapture mode.
                 _camera.applySettings(BarcodeCapture.createRecommendedCameraSettings());
                 _dataCaptureContext.setFrameSource(_camera);
             } else {
@@ -121,7 +128,6 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
             // The barcode capturing process is configured through barcode capture settings
             // which are then applied to the barcode capture instance that manages barcode recognition.
             BarcodeCaptureSettings barcodeCaptureSettings = new BarcodeCaptureSettings();
-
             barcodeCaptureSettings.enableSymbologies(_symbologies);
 
             _barcodeCapture = BarcodeCapture.forDataCaptureContext(_dataCaptureContext, barcodeCaptureSettings);
@@ -133,16 +139,7 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
             // that renders the camera preview. The view must be connected to the data capture context.
             _dataCaptureView = DataCaptureView.newInstance(_context, _dataCaptureContext);
 
-            // Add a barcode capture overlay to the data capture view to render the location of captured
-            // barcodes on top of the video preview.
-            // This is optional, but recommended for better visual feedback.
-            //BarcodeCaptureOverlay overlay = BarcodeCaptureOverlay.newInstance(_barcodeCapture, _dataCaptureView);
-            //overlay.setViewfinder(new RectangularViewfinder());
-
-            // Switch camera on to start streaming frames.
-            // The camera is started asynchronously and will take some time to completely turn on.
-            _barcodeCapture.setEnabled(true);
-            _camera.switchToDesiredState(FrameSourceState.ON, null);
+            startCameraAndCapturing();
         } catch (Exception e) {
             handleError(e);
         }
@@ -156,6 +153,32 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
         _methodChannel.invokeMethod("ERROR_CODE", code);
     }
 
+    private void stopCameraAndCapturing() {
+        // Switch camera off to stop streaming frames.
+        // The camera is stopped asynchronously and will take some time to completely turn off.
+        // Until it is completely stopped, it is still possible to receive further results, hence
+        // it's a good idea to first disable barcode capture as well.
+        _barcodeCapture.setEnabled(false);
+        _camera.switchToDesiredState(FrameSourceState.OFF, null);
+    }
+
+    private void startCameraAndCapturing() {
+        // Switch camera on to start streaming frames.
+        // The camera is started asynchronously and will take some time to completely turn on.
+        _barcodeCapture.setEnabled(true);
+        _camera.switchToDesiredState(FrameSourceState.ON, null);
+    }
+
+    private void stopBarcodeCapturing() {
+        // Note that disabling the capture mode
+        // does not stop the camera, the camera continues to stream frames until it is turned off.
+        _barcodeCapture.setEnabled(false);
+    }
+
+    private void startBarcodeCapturing() {
+        _barcodeCapture.setEnabled(true);
+    }
+
     @Override
     public void onBarcodeScanned(
             @NotNull BarcodeCapture barcodeCapture,
@@ -164,6 +187,10 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
         if (barcodeCaptureSession.getNewlyRecognizedBarcodes().isEmpty()) return;
 
         Barcode barcode = barcodeCaptureSession.getNewlyRecognizedBarcodes().get(0);
+
+        // Stop recognizing barcodes for as long as we are displaying the result. There won't be any
+        // new results until the capture mode is enabled again.
+        stopBarcodeCapturing();
 
         final Map<String, String> result = new HashMap<>();
         result.put("data", barcode.getData());

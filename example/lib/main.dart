@@ -113,11 +113,39 @@ class _MagicScreenState extends State<MagicScreen> {
 
   Widget _buildScanditView() {
     return Scandit(
-      scanned: (result) {
-        setState(() {
-          print(result.data);
-          _message = result.data;
-        });
+      scanned: (result, resumeBarcodeScanningFunc) {
+        showDialog<void>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext ctx) {
+            return AlertDialog(
+              title: Text('Barcode scanned'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text('The barcode is ${result.data}'),
+                    Text('Is it correct?'),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Yep!'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                ),
+                FlatButton(
+                  child: Text('No, resume scanning.'),
+                  onPressed: () async {
+                    Navigator.of(ctx).pop();
+                    await resumeBarcodeScanningFunc();
+                  },
+                ),
+              ],
+            );
+          },
+        );
       },
       onError: (e) {
         setState(() {

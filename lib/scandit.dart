@@ -5,12 +5,14 @@ import 'package:flutter/widgets.dart';
 
 import 'flutter_scandit.dart';
 
+typedef Future ResumeBarcodeScanning();
+
 class Scandit extends StatefulWidget {
   static const StandardMessageCodec _decoder = StandardMessageCodec();
 
   final String licenseKey;
   final List<Symbology> symbologies;
-  final Function(BarcodeResult) scanned;
+  final Function(BarcodeResult, ResumeBarcodeScanning) scanned;
   final Function(BarcodeScanException) onError;
 
   static const List<Symbology> defaultSymbologies = [Symbology.EAN13_UPCA];
@@ -27,7 +29,7 @@ class Scandit extends StatefulWidget {
   _ScanditState createState() => _ScanditState();
 }
 
-class _ScanditState extends State<Scandit> {
+class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
   static const MethodChannel _channel = const MethodChannel('ScanditView');
 
   static const String _licenseKeyField = "licenseKey";
@@ -45,12 +47,25 @@ class _ScanditState extends State<Scandit> {
   void initState() {
     super.initState();
     _channel.setMethodCallHandler(_handleMethod);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _channel.setMethodCallHandler(null);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      await _channel.invokeMethod("STOP_CAMERA_AND_CAPTURING");
+    }
+    if (state == AppLifecycleState.resumed) {
+      await _channel.invokeMethod("START_CAMERA_AND_CAPTURING");
+    }
   }
 
   @override
@@ -92,13 +107,14 @@ class _ScanditState extends State<Scandit> {
             symbology:
                 SymbologyUtils.getSymbology(barcode["symbology"] as String),
           ),
+          _resumeBarcodeScanning,
         );
         break;
       case 'ERROR_CODE':
         final exception = _resolveException(call.arguments as String);
         widget.onError(exception);
         break;
-      case 'info':
+      case 'INFO':
         print(call.arguments as String);
         break;
       default:
@@ -106,6 +122,10 @@ class _ScanditState extends State<Scandit> {
         widget.onError(exception);
         break;
     }
+  }
+
+  Future _resumeBarcodeScanning() async {
+    await _channel.invokeMethod("START_CAMERA_AND_CAPTURING");
   }
 
   static BarcodeScanException _resolveException(String errorCode) {
