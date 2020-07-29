@@ -42,7 +42,7 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
 
     ScanditView(Context context, BinaryMessenger messenger, int id, Object args) {
         _context = context;
-        _methodChannel = new MethodChannel(messenger, "ScanditView");
+        _methodChannel = new MethodChannel(messenger, PlatformChannelConstants.CHANNEL_NAME);
         _methodChannel.setMethodCallHandler(this);
 
         if (parseInitializationArguments(args))
@@ -54,15 +54,15 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
         switch (call.method) {
-            case "STOP_CAMERA_AND_CAPTURING":
+            case PlatformChannelConstants.METHOD_STOP_CAMERA_AND_CAPTURING:
                 stopCameraAndCapturing();
                 result.success("stopped");
                 break;
-            case "START_CAMERA_AND_CAPTURING":
+            case PlatformChannelConstants.METHOD_START_CAMERA_AND_CAPTURING:
                 startCameraAndCapturing();
                 result.success("started");
                 break;
-            case "START_CAPTURING":
+            case PlatformChannelConstants.METHOD_START_CAPTURING:
                 startBarcodeCapturing();
                 result.success("started");
                 break;
@@ -146,11 +146,11 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
     }
 
     private void handleError(Exception exception) {
-        _methodChannel.invokeMethod("UNFORESEEN_ERROR", exception.getMessage());
+        _methodChannel.invokeMethod(PlatformChannelConstants.METHOD_UNFORESEEN_ERROR, exception.getMessage());
     }
 
     private void handleError(String code) {
-        _methodChannel.invokeMethod("ERROR_CODE", code);
+        _methodChannel.invokeMethod(PlatformChannelConstants.METHOD_ERROR_CODE, code);
     }
 
     private void stopCameraAndCapturing() {
@@ -193,13 +193,13 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
         stopBarcodeCapturing();
 
         final Map<String, String> result = new HashMap<>();
-        result.put("data", barcode.getData());
-        result.put("symbology", barcode.getSymbology().name());
+        result.put(PlatformChannelConstants.PARAM_DATA, barcode.getData());
+        result.put(PlatformChannelConstants.PARAM_SYMBOLOGY, barcode.getSymbology().name());
 
         _dataCaptureView.post(new Runnable() {
             @Override
             public void run() {
-                _methodChannel.invokeMethod("SCANDIT_RESULT", result);
+                _methodChannel.invokeMethod(PlatformChannelConstants.METHOD_SCAN_RESULT, result);
             }
         });
     }
