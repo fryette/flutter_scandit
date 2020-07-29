@@ -146,7 +146,7 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
     }
 
     private void handleError(Exception exception) {
-        _methodChannel.invokeMethod("ERROR", exception.getMessage());
+        _methodChannel.invokeMethod("UNFORESEEN_ERROR", exception.getMessage());
     }
 
     private void handleError(String code) {

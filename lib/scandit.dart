@@ -5,17 +5,19 @@ import 'package:flutter/widgets.dart';
 
 import 'flutter_scandit.dart';
 
-typedef Future ResumeBarcodeScanning();
+typedef ResumeBarcodeScanning = Future Function();
 
+/// Make sure that you display this widghet only after the app was granted the camera
+/// permissions from the user. You can use 'permission_handler' package or similar for this
+/// matters.
 class Scandit extends StatefulWidget {
   static const StandardMessageCodec _decoder = StandardMessageCodec();
 
+  static const List<Symbology> defaultSymbologies = [Symbology.EAN13_UPCA];
   final String licenseKey;
   final List<Symbology> symbologies;
   final Function(BarcodeResult, ResumeBarcodeScanning) scanned;
   final Function(BarcodeScanException) onError;
-
-  static const List<Symbology> defaultSymbologies = [Symbology.EAN13_UPCA];
 
   Scandit({
     Key key,
@@ -43,10 +45,25 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
   static const String _errorNoCamera = "NO_CAMERA";
   static const String _errorUnknown = "UNKNOWN_ERROR";
 
+  static const String _platformViewId = "ScanditPlatformView";
+
+  static const String _nativeMethodStopCameraAndCapturing =
+      "STOP_CAMERA_AND_CAPTURING";
+  static const String _nativeMethodStartCameraAndCapturing =
+      "START_CAMERA_AND_CAPTURING";
+  static const String _nativeMethodStartCapturing = "START_CAPTURING";
+
+  static const String _callFromNativeScanResult = "SCANDIT_RESULT";
+  static const String _callFromNativeScanDataArgument = "data";
+  static const String _callFromNativeScanSymbologyArgument = "symbology";
+
+  static const String _callFromNativeErrorCode = "ERROR_CODE";
+  static const String _callFromNativeUnforeseenError = "UNFORESEEN_ERROR";
+
   @override
   void initState() {
     super.initState();
-    _channel.setMethodCallHandler(_handleMethod);
+    _channel.setMethodCallHandler(_handleCallFromNative);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -61,10 +78,10 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
-      await _channel.invokeMethod("STOP_CAMERA_AND_CAPTURING");
+      await _channel.invokeMethod(_nativeMethodStopCameraAndCapturing);
     }
     if (state == AppLifecycleState.resumed) {
-      await _channel.invokeMethod("START_CAMERA_AND_CAPTURING");
+      await _channel.invokeMethod(_nativeMethodStartCameraAndCapturing);
     }
   }
 
@@ -82,53 +99,53 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
 
     if (defaultTargetPlatform == TargetPlatform.android) {
       return AndroidView(
-        viewType: 'ScanditPlatformView',
+        viewType: _platformViewId,
         creationParams: arguments,
         creationParamsCodec: Scandit._decoder,
       );
     }
 
     return UiKitView(
-      viewType: 'ScanditPlatformView',
+      viewType: _platformViewId,
       creationParams: arguments,
       creationParamsCodec: Scandit._decoder,
     );
   }
 
-  Future<dynamic> _handleMethod(MethodCall call) async {
+  Future _resumeBarcodeScanning() async {
+    await _channel.invokeMethod(_nativeMethodStartCapturing);
+  }
+
+  Future<dynamic> _handleCallFromNative(MethodCall call) async {
     print(call.method);
     switch (call.method) {
-      case 'SCANDIT_RESULT':
-        final barcode = Map<String, dynamic>.from(call.arguments);
-
-        widget.scanned(
-          BarcodeResult(
-            data: barcode["data"],
-            symbology:
-                SymbologyUtils.getSymbology(barcode["symbology"] as String),
-          ),
-          _resumeBarcodeScanning,
-        );
+      case _callFromNativeScanResult:
+        _hanldeScan(Map<String, dynamic>.from(call.arguments));
         break;
-      case 'ERROR_CODE':
-        final exception = _resolveException(call.arguments as String);
-        widget.onError(exception);
+      case _callFromNativeErrorCode:
+        widget.onError(_createExceptionByCode(call.arguments as String));
         break;
-      case 'INFO':
-        print(call.arguments as String);
+      case _callFromNativeUnforeseenError:
+        widget.onError(BarcodeScanException(call.arguments as String));
         break;
       default:
-        final exception = _resolveException(call.arguments as String);
-        widget.onError(exception);
+        widget.onError(BarcodeScanException());
         break;
     }
   }
 
-  Future _resumeBarcodeScanning() async {
-    await _channel.invokeMethod("START_CAMERA_AND_CAPTURING");
+  void _hanldeScan(Map<String, dynamic> arguments) {
+    widget.scanned(
+      BarcodeResult(
+        data: arguments[_callFromNativeScanDataArgument],
+        symbology: SymbologyUtils.getSymbology(
+            arguments[_callFromNativeScanSymbologyArgument] as String),
+      ),
+      _resumeBarcodeScanning,
+    );
   }
 
-  static BarcodeScanException _resolveException(String errorCode) {
+  static BarcodeScanException _createExceptionByCode(String errorCode) {
     switch (errorCode) {
       case _errorNoLicence:
         return MissingLicenceException();
@@ -141,8 +158,7 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
       case _errorUnknown:
         return BarcodeScanException();
       default:
-        return BarcodeScanException(BarcodeScanException.defaultErrorMessage);
-      //e.message ?? e.code ?? BarcodeScanException.defaultErrorMessage);
+        return BarcodeScanException();
     }
   }
 }
