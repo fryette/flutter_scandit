@@ -90,12 +90,12 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
 
     private boolean parseInitializationArguments(Object arguments) {
         Map<String, Object> argsMap = (Map<String, Object>) arguments;
-        if (argsMap.containsKey(MethodCallHandlerImpl.PARAM_LICENSE_KEY)) {
-            _licenceKey = (String) argsMap.get(MethodCallHandlerImpl.PARAM_LICENSE_KEY);
+        if (argsMap.containsKey(PlatformChannelConstants.PARAM_LICENSE_KEY)) {
+            _licenceKey = (String) argsMap.get(PlatformChannelConstants.PARAM_LICENSE_KEY);
 
-            ArrayList<String> passedSymbologies = (ArrayList<String>) argsMap.get(MethodCallHandlerImpl.PARAM_SYMBOLOGIES);
+            ArrayList<String> passedSymbologies = (ArrayList<String>) argsMap.get(PlatformChannelConstants.PARAM_SYMBOLOGIES);
             for (String symbologyName : passedSymbologies) {
-                Symbology symbology = MethodCallHandlerImpl.convertToSymbology(symbologyName);
+                Symbology symbology = SymbologyEx.convertToSymbology(symbologyName);
                 if (symbology != null) {
                     _symbologies.add(symbology);
                 }
@@ -105,7 +105,7 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
             }
             return  true;
         } else {
-            handleError(MethodCallHandlerImpl.ERROR_NO_LICENSE);
+            handleError(PlatformChannelConstants.ERROR_NO_LICENSE);
             return false;
         }
     }
@@ -122,7 +122,7 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
                 _camera.applySettings(BarcodeCapture.createRecommendedCameraSettings());
                 _dataCaptureContext.setFrameSource(_camera);
             } else {
-                handleError(MethodCallHandlerImpl.ERROR_NO_CAMERA);
+                handleError(PlatformChannelConstants.ERROR_NO_CAMERA);
             }
 
             // The barcode capturing process is configured through barcode capture settings
