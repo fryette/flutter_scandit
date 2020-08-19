@@ -19,7 +19,7 @@ class Scandit extends StatefulWidget {
   final Function(BarcodeResult, ResumeBarcodeScanning) scanned;
   final Function(BarcodeScanException) onError;
 
-  Scandit({
+  const Scandit({
     Key key,
     @required this.licenseKey,
     @required this.scanned,
@@ -32,7 +32,7 @@ class Scandit extends StatefulWidget {
 }
 
 class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
-  static const MethodChannel _channel = const MethodChannel('ScanditView');
+  static const _channel = MethodChannel('ScanditView');
 
   static const String _licenseKeyField = "licenseKey";
   static const String _symbologiesField = "symbologies";
@@ -75,13 +75,13 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
+  void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
-      await _channel.invokeMethod(_nativeMethodStopCameraAndCapturing);
+      _channel.invokeMethod(_nativeMethodStopCameraAndCapturing);
     }
     if (state == AppLifecycleState.resumed) {
-      await _channel.invokeMethod(_nativeMethodStartCameraAndCapturing);
+      _channel.invokeMethod(_nativeMethodStartCameraAndCapturing);
     }
   }
 
@@ -91,7 +91,7 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
   }
 
   Widget _buildScanditPlatformView() {
-    Map<String, dynamic> arguments = {
+    final arguments = {
       _licenseKeyField: widget.licenseKey,
       _symbologiesField:
           widget.symbologies.map(SymbologyUtils.getSymbologyString).toList()
@@ -117,10 +117,9 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
   }
 
   Future<dynamic> _handleCallFromNative(MethodCall call) async {
-    print(call.method);
     switch (call.method) {
       case _callFromNativeScanResult:
-        _hanldeScan(Map<String, dynamic>.from(call.arguments));
+        _hanldeScan(Map<String, String>.from(call.arguments as Map));
         break;
       case _callFromNativeErrorCode:
         widget.onError(_createExceptionByCode(call.arguments as String));
@@ -134,12 +133,12 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
     }
   }
 
-  void _hanldeScan(Map<String, dynamic> arguments) {
+  void _hanldeScan(Map<String, String> arguments) {
     widget.scanned(
       BarcodeResult(
         data: arguments[_callFromNativeScanDataArgument],
         symbology: SymbologyUtils.getSymbology(
-            arguments[_callFromNativeScanSymbologyArgument] as String),
+            arguments[_callFromNativeScanSymbologyArgument]),
       ),
       _resumeBarcodeScanning,
     );

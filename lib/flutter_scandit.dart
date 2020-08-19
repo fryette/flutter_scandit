@@ -8,7 +8,7 @@ part 'models/barcode_result.dart';
 part 'models/exception.dart';
 
 class FlutterScandit {
-  static const MethodChannel _channel = const MethodChannel('flutter_scandit');
+  static const _channel = MethodChannel('flutter_scandit');
 
   static const String _licenseKeyField = "licenseKey";
   static const String _symbologiesField = "symbologies";
@@ -31,19 +31,19 @@ class FlutterScandit {
 
   /// Scan barcode using camera and get a `BarcodeResult` back
   Future<BarcodeResult> scanBarcode() async {
-    Map<String, dynamic> arguments = {
+    final arguments = {
       _licenseKeyField: licenseKey,
       _symbologiesField:
           symbologies.map(SymbologyUtils.getSymbologyString).toList()
     };
 
     try {
-      var result = await _channel.invokeMethod('scanBarcode', arguments);
-      final Map<String, dynamic> barcode = Map<String, dynamic>.from(result);
+      final result = await _channel.invokeMethod<Map>('scanBarcode', arguments);
+      final barcode = Map<String, String>.from(result);
 
       return BarcodeResult(
         data: barcode["data"],
-        symbology: SymbologyUtils.getSymbology(barcode["symbology"] as String),
+        symbology: SymbologyUtils.getSymbology(barcode["symbology"]),
       );
     } on PlatformException catch (e) {
       throw _resolveException(e);

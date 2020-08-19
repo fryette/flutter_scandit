@@ -1,13 +1,11 @@
 part of '../flutter_scandit.dart';
 
-
 /// Generic Flutter Scandit Barcode Exception
 class BarcodeScanException implements Exception {
   final String message;
   static const String defaultErrorMessage = "Unknown platform error";
 
-  BarcodeScanException([String errorMessage = defaultErrorMessage])
-      : this.message = errorMessage;
+  BarcodeScanException([this.message = defaultErrorMessage]);
 
   factory BarcodeScanException.fromPlatformException(
           PlatformException exception) =>
@@ -22,9 +20,10 @@ class BarcodeScanException implements Exception {
 
 /// Exception caused by missing Scandit licence key
 class MissingLicenceException implements BarcodeScanException {
+  @override
   final String message;
 
-  MissingLicenceException([String errorMessage]) : this.message = errorMessage;
+  MissingLicenceException([this.message]);
 
   factory MissingLicenceException.fromPlatformException(
           PlatformException exception) =>
@@ -39,10 +38,10 @@ class MissingLicenceException implements BarcodeScanException {
 
 /// Exception caused denied camera permissions
 class CameraPermissionDeniedException implements BarcodeScanException {
+  @override
   final String message;
 
-  CameraPermissionDeniedException([String errorMessage])
-      : this.message = errorMessage;
+  CameraPermissionDeniedException([this.message]);
 
   factory CameraPermissionDeniedException.fromPlatformException(
           PlatformException exception) =>
@@ -57,10 +56,10 @@ class CameraPermissionDeniedException implements BarcodeScanException {
 
 /// Exception caused by unexpected failure in initialising the camera
 class CameraInitialisationException implements BarcodeScanException {
+  @override
   final String message;
 
-  CameraInitialisationException([String errorMessage])
-      : this.message = errorMessage;
+  CameraInitialisationException([this.message]);
 
   factory CameraInitialisationException.fromPlatformException(
           PlatformException exception) =>
@@ -75,9 +74,10 @@ class CameraInitialisationException implements BarcodeScanException {
 
 /// Exception caused by not finding a camera to use for scanning
 class NoCameraException implements BarcodeScanException {
+  @override
   final String message;
 
-  NoCameraException([String errorMessage]) : this.message = errorMessage;
+  NoCameraException([this.message]);
 
   factory NoCameraException.fromPlatformException(
           PlatformException exception) =>

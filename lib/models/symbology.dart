@@ -1,6 +1,7 @@
 part of '../flutter_scandit.dart';
 
 /// Type of encoding for the barcode
+// ignore_for_file: constant_identifier_names
 enum Symbology {
   EAN13_UPCA,
   UPCE,
