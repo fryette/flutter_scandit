@@ -19,6 +19,3 @@ flutter:
   plugin:
     androidPackage: za.co.palota.flutter_scandit
     pluginClass: FlutterScanditPlugin
-    
-  assets:
-   - assets/
