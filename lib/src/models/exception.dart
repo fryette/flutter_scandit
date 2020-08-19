@@ -1,4 +1,4 @@
-part of '../flutter_scandit.dart';
+import 'package:flutter/services.dart';
 
 /// Generic Flutter Scandit Barcode Exception
 class BarcodeScanException implements Exception {

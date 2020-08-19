@@ -1,4 +1,4 @@
-part of '../flutter_scandit.dart';
+import '../models/symbology.dart';
 
 /// Simple utilities for dealing with symbology
 class SymbologyUtils {

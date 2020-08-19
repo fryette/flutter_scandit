@@ -11,10 +11,11 @@ dependencies:
   permission_handler: ^5.0.1+1
   cupertino_icons: ^0.1.2
 
+
 dev_dependencies:
+  lint: ^1.3.0-dev.d29.1
   flutter_test:
     sdk: flutter
-
   flutter_scandit:
     path: ../
 

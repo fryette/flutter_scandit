@@ -1,4 +1,4 @@
-part of '../flutter_scandit.dart';
+import 'symbology.dart';
 
 /// Result of scanning a barcode
 class BarcodeResult {
