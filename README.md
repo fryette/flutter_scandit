@@ -1,19 +1,17 @@
-<img src="https://github.com/fryette/flutter_scandit/blob/prepare_release/assets/scandit_logo.png" width="100%" alt="logo" />
-<h2 align="center">
-  Barcode Scanning on Smart Devices
-</h2>
-
 <p align="center">
-  <a href="https://github.com/fryette/flutter_scandit/blob/master/assets/scandit_logo.png">
+    <img src="https://github.com/fryette/flutter_scandit/blob/prepare_release/assets/scandit_logo.png" width="50%" alt="logo" />
+  <h2 align="center">
+    Barcode Scanning on Smart Devices
+  </h2>
+  <p align="center">
+  <a align="center" href="https://github.com/fryette/flutter_scandit/blob/master/assets/scandit_logo.png">
     <img alt="Pub Package" src="https://img.shields.io/pub/v/scandit.svg">
   </a>
-  <br/>
   <a href="https://opensource.org/licenses/MIT">
     <img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue.svg">
   </a>
+  </p>
 </p>
-
----
 
 ## Overview
 
