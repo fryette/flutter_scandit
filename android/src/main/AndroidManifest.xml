@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="za.co.palota.flutter_scandit">
+  package="com.ysampir.flutter_scandit_plugin">
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -7,7 +7,7 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
 
         <activity
-            android:name="za.co.palota.flutter_scandit.BarcodeScanActivity"
+            android:name="com.ysampir.flutter_scandit_plugin.BarcodeScanActivity"
             android:screenOrientation="sensor">
         </activity>
     </application>

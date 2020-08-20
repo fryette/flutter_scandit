@@ -22,7 +22,7 @@ const String _callFromNativeErrorCode = "ERROR_CODE";
 const String _callFromNativeUnforeseenError = "UNFORESEEN_ERROR";
 
 class ScanditController {
-  static const _channel = MethodChannel('ScanditView');
+  static const MethodChannel _channel = MethodChannel('ScanditView');
 
   final void Function(BarcodeResult) _scanned;
   final void Function(BarcodeScanException) _onError;

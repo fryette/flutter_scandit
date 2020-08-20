@@ -235,7 +235,7 @@
 				"${PODS_ROOT}/ScanditBarcodeCapture/ScanditBarcodeCapture.framework.dSYM",
 				"${PODS_ROOT}/ScanditCaptureCore/ScanditCaptureCore.framework",
 				"${PODS_ROOT}/ScanditCaptureCore/ScanditCaptureCore.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/flutter_scandit/flutter_scandit.framework",
+				"${BUILT_PRODUCTS_DIR}/flutter_scandit_plugin/flutter_scandit_plugin.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -244,7 +244,7 @@
 				"${DWARF_DSYM_FOLDER_PATH}/ScanditBarcodeCapture.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ScanditCaptureCore.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/ScanditCaptureCore.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_scandit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_scandit_plugin.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

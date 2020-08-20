@@ -1,4 +1,4 @@
-package za.co.palota.flutter_scandit;
+package com.ysampir.flutter_scandit_plugin;
 
 public final class PlatformChannelConstants {
     public static final String CHANNEL_NAME = "ScanditView";

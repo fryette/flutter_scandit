@@ -1,4 +1,4 @@
-package za.co.palota.flutter_scandit;
+package com.ysampir.flutter_scandit_plugin;
 
 import com.scandit.datacapture.barcode.data.Symbology;
 

@@ -1,4 +1,4 @@
-group 'za.co.palota.flutter_scandit'
+group 'com.ysampir.flutter_scandit_plugin'
 version '1.0'
 
 buildscript {

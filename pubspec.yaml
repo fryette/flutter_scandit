@@ -1,4 +1,4 @@
-name: flutter_scandit
+name: flutter_scandit_plugin
 description: Flutter Plugin for Scandit Barcode Scanning on Android and iOS
 version: 1.0.0
 homepage: https://github.com/fryette/flutter_scandit
@@ -22,5 +22,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: za.co.palota.flutter_scandit
+        package: com.ysampir.flutter_scandit_plugin
         pluginClass: FlutterScanditPlugin
+      ios:
+        pluginClass: SwiftFlutterScanditPlugin

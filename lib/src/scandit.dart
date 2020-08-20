@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../flutter_scandit.dart';
+import '../flutter_scandit_plugin.dart';
 import './models/index.dart';
 import './utils/symbology_utils.dart';
-
-typedef ResumeBarcodeScanning = Future Function();
 
 /// Make sure that you display this widghet only after the app was granted the camera
 /// permissions from the user. You can use 'permission_handler' package or similar for this

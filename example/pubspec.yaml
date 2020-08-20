@@ -1,6 +1,7 @@
 name: flutter_scandit_example
 description: Demonstrates how to use the flutter_scandit plugin.
 publish_to: 'none'
+version: 1.0.0
 
 environment:
   sdk: ">=2.8.0 <3.0.0"
@@ -16,7 +17,7 @@ dev_dependencies:
   lint: ^1.3.0-dev.d29.1
   flutter_test:
     sdk: flutter
-  flutter_scandit:
+  flutter_scandit_plugin:
     path: ../
 
 flutter:
