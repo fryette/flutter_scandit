@@ -1,10 +1,10 @@
 <p align="center">
-    <img src="https://github.com/fryette/flutter_scandit/blob/prepare_release/assets/scandit_logo.png" width="50%" alt="logo" />
+    <img src="https://github.com/fryette/flutter_scandit/blob/master/assets/scandit_logo.png" width="50%" alt="logo" />
   <h2 align="center">
     Barcode Scanning on Smart Devices
   </h2>
   <p align="center">
-  <a align="center" href="https://github.com/fryette/flutter_scandit/blob/master/assets/scandit_logo.png">
+  <a align="center" href="https://pub.dev/packages/flutter_scandit_plugin">
     <img alt="Pub Package" src="https://img.shields.io/pub/v/scandit.svg">
   </a>
   <a href="https://opensource.org/licenses/MIT">
@@ -44,11 +44,11 @@ minSdkVersion 19
 
 ### Flutter
 
-First, we need to do add `scandit` to the dependencies of the `pubspec.yaml`
+First, we need to do add `flutter_scandit_plugin` to the dependencies of the `pubspec.yaml`
 
 ```yaml
 dependencies:
-  scandit: any
+  flutter_scandit_plugin: any
 ```
 
 Next, we need to install it:
@@ -81,7 +81,7 @@ Scandit(scanned: (result){
 }
 ```
 
-After sucussfull scanning youy need manualy execute continue scanning if needed:
+After successful scanning you need to manually execute continue scanning if needed:
 
 ```dart
 _controller.resumeBarcodeScanning();
