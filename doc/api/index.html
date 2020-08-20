@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 0.32.1">
+  <meta name="description" content="scandit API docs, for the Dart programming language.">
+  <title>scandit - Dart API docs</title>
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+
+</head>
+
+<body data-base-href=""
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://github.com/PalotaCompany/flutter_scandit">scandit package</a></li>
+  </ol>
+  <div class="self-name">scandit</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+      <form class="search-sidebar" role="search">
+        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+      </form>
+    </header>
+    
+    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+      <li><a href="https://github.com/PalotaCompany/flutter_scandit">scandit package</a></li>
+    </ol>
+    
+    <h5 class="hidden-xs"><span class="package-name">scandit</span> <span class="package-kind">package</span></h5>
+    <ol>
+          <li class="section-title">Libraries</li>
+          <li><a href="flutter_scandit/flutter_scandit-library.html">flutter_scandit</a></li>
+    </ol>
+  </div>
+
+  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <section class="desc markdown">
+        <h1 id="flutter-scandit">Flutter Scandit</h1>
+<p><a href="https://pub.dev/packages/flutter_scandit"><img src="https://img.shields.io/pub/v/flutter_scandit.svg" alt="pub package"></a> </p>
+<p>Flutter Plugin for <a href="https://www.scandit.com/">Scandit</a> Barcode Scanning</p>
+<h2 id="getting-started">Getting Started</h2>
+<p>Check out the <a href="https://github.com/PalotaCompany/flutter_scandit/tree/master/example">example</a> directory for a sample app using Firebase Cloud Messaging.</p>
+<h2 id="features">Features:</h2>
+<ul>
+<li>Scan a barcode on demand</li>
+</ul>
+<h2 id="platforms">Platforms:</h2>
+<ul>
+<li>Android</li>
+<li>iOS</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>First, add <code>flutter_scandit</code> as a <a href="https://flutter.io/using-packages/">dependency in your pubspec.yaml file</a>.</p>
+<h3 id="ios">iOS</h3>
+<p>Add the following to the <code>ios/Runner/Info.plist</code>:</p>
+<ul>
+<li>The key <code>Privacy - Camera Usage Description</code> and a usage description.</li>
+</ul>
+<p>Or in text format add the key:</p>
+<pre class="language-xml"><code class="language-xml">&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;
+&lt;string&gt;Can I use the camera for scanning?&lt;/string&gt;
+</code></pre>
+<p>Min target is iOS 9.0</p>
+<h3 id="android">Android</h3>
+<p>Min SDK version should be 19 or later</p>
+<pre class="language-dart"><code>minSdkVersion 19
+</code></pre>
+<h3 id="example">Example</h3>
+<p>An exmaple with specific symbologies</p>
+<pre class="language-dart"><code class="language-dart">BarcodeResult result = await FlutterScandit(symbologies: [
+  Symbology.EAN13_UPCA,
+  Symbology.CODE128,
+  // - any other valid sumbologies
+], licenseKey: "-- ENTER YOUR SCANDIT LICENSE KEY HERE --") // use your scandit key here
+    .scanBarcode();
+String barcodeData = result.data; // actual barcode string
+Symbology scannedSymbology = result.symbology; // the symbology which was scanned
+</code></pre>
+<p>Make sure to wrap the invocation of the method in a try catch block to handle any <code>BarcodeScanException</code> exceptions that may occur.</p>
+<p>You should always pass the intended symbologies along with your call. It is also important to check that the symbologies you are selecting align with your Scandit license restrictions.</p>
+<p>Since the actual licence keys may be different per platoform, it is advised to abtract this out using environment variables or global configuration that can be changed per build/environment.</p>
+      </section>
+      
+        <section class="summary">
+            <h2>Libraries</h2>
+          <dl>
+            <dt id="flutter_scandit">
+              <span class="name"><a href="flutter_scandit/flutter_scandit-library.html">flutter_scandit</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+          </dl>
+        </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    scandit
+      0.1.0
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+</body>
+
+</html>
