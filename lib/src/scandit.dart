@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_scandit/src/controller.dart';
 
+import '../flutter_scandit.dart';
 import './models/index.dart';
 import './utils/symbology_utils.dart';
 

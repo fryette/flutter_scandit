@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import './models/index.dart';
 import './utils/symbology_utils.dart';
 
-// errors
 const String _errorNoLicence = "MISSING_LICENCE";
 const String _errorPermissionDenied = "CAMERA_PERMISSION_DENIED";
 const String _errorCameraInitialisation = "CAMERA_INITIALISATION_ERROR";
@@ -19,7 +18,6 @@ const String _nativeMethodStartCapturing = "START_CAPTURING";
 const String _callFromNativeScanResult = "SCANDIT_RESULT";
 const String _callFromNativeScanDataArgument = "data";
 const String _callFromNativeScanSymbologyArgument = "symbology";
-
 const String _callFromNativeErrorCode = "ERROR_CODE";
 const String _callFromNativeUnforeseenError = "UNFORESEEN_ERROR";
 
