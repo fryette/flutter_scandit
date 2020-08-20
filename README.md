@@ -1,26 +1,25 @@
-# Flutter Scandit
+<img src="https://github.com/fryette/flutter_scandit/blob/prepare_release/assets/scandit_logo.png" width="100%" alt="logo" />
+<h2 align="center">
+  Barcode Scanning on Smart Devices
+</h2>
 
-[![pub package](https://img.shields.io/pub/v/flutter_scandit.svg)](https://pub.dev/packages/flutter_scandit) 
+<p align="center">
+  <a href="https://github.com/fryette/flutter_scandit/blob/master/assets/scandit_logo.png">
+    <img alt="Pub Package" src="https://img.shields.io/pub/v/scandit.svg">
+  </a>
+  <br/>
+  <a href="https://opensource.org/licenses/MIT">
+    <img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue.svg">
+  </a>
+</p>
 
-Flutter Plugin for [Scandit](https://www.scandit.com/) Barcode Scanning
+---
 
+## Overview
 
-## Getting Started
+Scandit mobile computer vision software brings unrivaled scanning performance to any app on any smart device, turning it into a powerful data-capture tool.
 
-Check out the [example](https://github.com/PalotaCompany/flutter_scandit/tree/master/example) directory for a sample app using Firebase Cloud Messaging.
-
-## Features:
-
-* Scan a barcode on demand
-
-
-## Platforms:
-- Android
-- iOS
-
-## Installation
-
-First, add `flutter_scandit` as a [dependency in your pubspec.yaml file](https://flutter.io/using-packages/).
+## Setup project
 
 ### iOS
 
@@ -45,22 +44,50 @@ Min SDK version should be 19 or later
 minSdkVersion 19
 ```
 
-### Example
+### Flutter
 
-An exmaple with specific symbologies
-```dart
-BarcodeResult result = await FlutterScandit(symbologies: [
-  Symbology.EAN13_UPCA,
-  Symbology.CODE128,
-  // - any other valid sumbologies
-], licenseKey: "-- ENTER YOUR SCANDIT LICENSE KEY HERE --") // use your scandit key here
-    .scanBarcode();
-String barcodeData = result.data; // actual barcode string
-Symbology scannedSymbology = result.symbology; // the symbology which was scanned
+First, we need to do add `scandit` to the dependencies of the `pubspec.yaml`
+
+```yaml
+dependencies:
+  scandit: any
 ```
 
-Make sure to wrap the invocation of the method in a try catch block to handle any `BarcodeScanException` exceptions that may occur.
+Next, we need to install it:
 
-You should always pass the intended symbologies along with your call. It is also important to check that the symbologies you are selecting align with your Scandit license restrictions.
+```sh
+# Dart
+pub get
 
-Since the actual licence keys may be different per platoform, it is advised to abtract this out using environment variables or global configuration that can be changed per build/environment.
+# Flutter
+flutter packages get
+```
+
+## Usage
+
+Add `Scandit` widget to the tree
+
+```dart
+import 'package:flutter_scandit/flutter_scandit.dart';
+
+ScanditController _controller;
+
+Scandit(scanned: (result){
+          // handle scanned result here
+        },
+        onError: (e) {
+          // handle errors here
+        },
+        onScanditCreated: (controller) => _controller = controller,
+        licenseKey: INSERT YOUR KEY HERE);
+}
+```
+
+After sucussfull scanning youy need manualy execute continue scanning if needed:
+
+```dart
+_controller.resumeBarcodeScanning();
+```
+
+## Full Example
+Please check example folder and do not forget to add `Scandit Key` to main.dart
