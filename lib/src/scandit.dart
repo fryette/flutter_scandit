@@ -79,6 +79,8 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
         viewType: _platformViewId,
         creationParams: arguments,
         creationParamsCodec: Scandit._decoder,
+        onPlatformViewCreated: (_) =>
+            widget.onScanditCreated?.call(_controller),
       );
     }
 

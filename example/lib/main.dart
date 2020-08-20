@@ -94,14 +94,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Barcode scanned'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: [
-                Text('The barcode is ${result.data}'),
-                const Text('Found something!'),
-              ],
-            ),
-          ),
+          content: Text('The barcode is ${result.data}'),
           actions: [
             FlatButton(
               onPressed: () => Navigator.of(context).pop(),
