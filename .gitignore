@@ -5,3 +5,11 @@
 .pub/
 
 build/
+
+example/ios/Podfile.lock
+
+pubspec.lock
+
+example/.flutter-plugins-dependencies
+
+example/ios/Flutter/.last_build_id
