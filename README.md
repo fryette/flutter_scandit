@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/fryette/flutter_scandit/blob/prepare_release/assets/scandit_logo.png" width="50%" alt="logo" />
+    <img src="https://github.com/fryette/flutter_scandit/blob/master/assets/scandit_logo.png" width="50%" alt="logo" />
   <h2 align="center">
     Barcode Scanning on Smart Devices
   </h2>
