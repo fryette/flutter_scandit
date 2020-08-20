@@ -44,11 +44,11 @@ minSdkVersion 19
 
 ### Flutter
 
-First, we need to do add `scandit` to the dependencies of the `pubspec.yaml`
+First, we need to do add `flutter_scandit_plugin` to the dependencies of the `pubspec.yaml`
 
 ```yaml
 dependencies:
-  scandit: any
+  flutter_scandit_plugin: any
 ```
 
 Next, we need to install it:
@@ -81,7 +81,7 @@ Scandit(scanned: (result){
 }
 ```
 
-After sucussfull scanning youy need manualy execute continue scanning if needed:
+After successful scanning you need to manually execute continue scanning if needed:
 
 ```dart
 _controller.resumeBarcodeScanning();
