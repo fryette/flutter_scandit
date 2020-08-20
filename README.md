@@ -4,7 +4,7 @@
     Barcode Scanning on Smart Devices
   </h2>
   <p align="center">
-  <a align="center" href="https://github.com/fryette/flutter_scandit/blob/master/assets/scandit_logo.png">
+  <a align="center" href="https://pub.dev/packages/flutter_scandit_plugin">
     <img alt="Pub Package" src="https://img.shields.io/pub/v/scandit.svg">
   </a>
   <a href="https://opensource.org/licenses/MIT">
