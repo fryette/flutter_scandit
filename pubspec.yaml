@@ -1,13 +1,13 @@
 name: flutter_scandit_plugin
 description: Flutter Plugin for Scandit Barcode Scanning on Android and iOS
-version: 1.0.0
+version: 1.0.0+2
 homepage: https://github.com/fryette/flutter_scandit
 repository: https://github.com/fryette/flutter_scandit
 issue_tracker: https://github.com/fryette/flutter_scandit/issues
 
 environment:
   sdk: ">=2.8.0 <3.0.0"
-  flutter: ">=1.20.2"
+  flutter: ">=1.20.1"
 
 dependencies:
   flutter:

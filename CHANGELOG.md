@@ -1,3 +1,11 @@
+## 1.0.0+2
+
+* Change flutter version to 1.20.1
+
+## 1.0.0+1
+
+* Improve Readme
+
 ## 1.0.0
 
 * First release
