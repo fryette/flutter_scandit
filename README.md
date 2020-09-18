@@ -66,7 +66,7 @@ flutter packages get
 Add `Scandit` widget to the tree
 
 ```dart
-import 'package:flutter_scandit/flutter_scandit.dart';
+import 'package:flutter_scandit_plugin/flutter_scandit_plugin.dart';
 
 ScanditController _controller;
 
