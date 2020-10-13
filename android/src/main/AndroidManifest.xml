@@ -1,13 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.ysampir.flutter_scandit_plugin">
     <uses-permission android:name="android.permission.INTERNET"/>
-
     <application
-        android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
-
+        android:supportsRtl="true">
         <activity
             android:name="com.ysampir.flutter_scandit_plugin.BarcodeScanActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:screenOrientation="sensor">
         </activity>
     </application>
