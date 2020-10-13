@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Fix manifest merger failed issue
+
 ## 1.0.0+2
 
 * Change flutter version to 1.20.1
