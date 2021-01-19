@@ -6,13 +6,12 @@ import './utils/symbology_utils.dart';
 
 const String _errorNoLicence = "MISSING_LICENCE";
 const String _errorPermissionDenied = "CAMERA_PERMISSION_DENIED";
-const String _errorCameraInitialisation = "CAMERA_INITIALISATION_ERROR";
+const String _errorCameraInitialization = "CAMERA_INITIALIZATION_ERROR";
 const String _errorNoCamera = "NO_CAMERA";
 const String _errorUnknown = "UNKNOWN_ERROR";
 
 const String _nativeMethodStopCameraAndCapturing = "STOP_CAMERA_AND_CAPTURING";
-const String _nativeMethodStartCameraAndCapturing =
-    "START_CAMERA_AND_CAPTURING";
+const String _nativeMethodStartCameraAndCapturing = "START_CAMERA_AND_CAPTURING";
 const String _nativeMethodStartCapturing = "START_CAPTURING";
 
 const String _callFromNativeScanResult = "SCANDIT_RESULT";
@@ -48,7 +47,7 @@ class ScanditController {
     BarcodeScanException error;
     switch (call.method) {
       case _callFromNativeScanResult:
-        _hanldeScan(Map<String, String>.from(call.arguments as Map));
+        _handleScan(Map<String, String>.from(call.arguments as Map));
         return;
       case _callFromNativeErrorCode:
         error = _createExceptionByCode(call.arguments as String);
@@ -70,8 +69,8 @@ class ScanditController {
         return MissingLicenceException();
       case _errorPermissionDenied:
         return CameraPermissionDeniedException();
-      case _errorCameraInitialisation:
-        return CameraInitialisationException();
+      case _errorCameraInitialization:
+        return CameraInitializationException();
       case _errorNoCamera:
         return NoCameraException();
       case _errorUnknown:
@@ -85,11 +84,10 @@ class ScanditController {
     await _channel.invokeMethod(_nativeMethodStartCapturing);
   }
 
-  void _hanldeScan(Map<String, String> arguments) {
+  void _handleScan(Map<String, String> arguments) {
     _scanned(BarcodeResult(
       data: arguments[_callFromNativeScanDataArgument],
-      symbology: SymbologyUtils.getSymbology(
-          arguments[_callFromNativeScanSymbologyArgument]),
+      symbology: SymbologyUtils.getSymbology(arguments[_callFromNativeScanSymbologyArgument]),
     ));
   }
 }
