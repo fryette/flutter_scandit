@@ -1,3 +1,7 @@
+## 1.1.0
+
+Dispose scanning and camera resources when Android view is disposed
+
 ## 1.0.1
 
 * Fix manifest merger failed issue
