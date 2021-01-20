@@ -23,7 +23,7 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 19
@@ -33,8 +33,8 @@ android {
         disable 'InvalidPackage'
     }
     dependencies {
-        implementation "com.scandit.datacapture:core:6.4.1"
-        implementation "com.scandit.datacapture:barcode:6.4.1"
+        implementation "com.scandit.datacapture:core:6.6.2"
+        implementation "com.scandit.datacapture:barcode:6.6.2"
 
         implementation "androidx.appcompat:appcompat:1.0.2"
         implementation "com.google.android.material:material:1.0.0"

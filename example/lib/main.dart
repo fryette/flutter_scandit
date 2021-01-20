@@ -44,8 +44,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _requestCameraPermissions());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _requestCameraPermissions());
   }
 
   @override
@@ -74,11 +73,33 @@ class _ExampleScreenState extends State<ExampleScreen> {
                 )),
           ),
           Center(child: Text(_message)),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FloatingActionButton(
+                backgroundColor: Colors.blue,
+                onPressed: () {
+                  _controller.stopCamera();
+                },
+                child: const Icon(Icons.stop),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FloatingActionButton(
+                backgroundColor: Colors.blue,
+                onPressed: () {
+                  _controller.startCamera();
+                },
+                child: const Icon(Icons.play_arrow),
+              ),
+            ),
+          ),
         ],
-      ),
-      floatingActionButton: IconButton(
-        onPressed: () {},
-        icon: Container(),
       ),
     );
   }
