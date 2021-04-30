@@ -4,21 +4,19 @@ publish_to: 'none'
 version: 1.0.0
 
 environment:
-  sdk: ">=2.8.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  permission_handler: ^5.0.1+1
-  cupertino_icons: ^0.1.2
-
+  permission_handler: ^7.1.0
 
 dev_dependencies:
-  lint: ^1.3.0-dev.d29.1
-  flutter_test:
-    sdk: flutter
   flutter_scandit_plugin:
     path: ../
+  flutter_test:
+    sdk: flutter
+  lint: ^1.5.3
 
 flutter:
   uses-material-design: true

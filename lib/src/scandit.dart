@@ -21,11 +21,11 @@ class Scandit extends StatefulWidget {
   final void Function(ScanditController) onScanditCreated;
 
   const Scandit({
-    Key key,
-    @required this.licenseKey,
-    @required this.scanned,
-    this.onScanditCreated,
-    this.onError,
+    Key? key,
+    required this.licenseKey,
+    required this.scanned,
+    required this.onScanditCreated,
+    required this.onError,
     this.symbologies = defaultSymbologies,
   }) : super(key: key);
 
@@ -37,18 +37,18 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
   static const String _licenseKey = "licenseKey";
   static const String _symbologies = "symbologies";
   static const String _platformViewId = "ScanditPlatformView";
-  ScanditController _controller;
+  late ScanditController _controller;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     _controller = ScanditController(widget.scanned, widget.onError);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     _controller.dispose();
     super.dispose();
   }
@@ -77,7 +77,7 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
         viewType: _platformViewId,
         creationParams: arguments,
         creationParamsCodec: Scandit._decoder,
-        onPlatformViewCreated: (_) => widget.onScanditCreated?.call(_controller),
+        onPlatformViewCreated: (_) => widget.onScanditCreated.call(_controller),
       );
     }
 
@@ -85,7 +85,7 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
       viewType: _platformViewId,
       creationParams: arguments,
       creationParamsCodec: Scandit._decoder,
-      onPlatformViewCreated: (_) => widget.onScanditCreated?.call(_controller),
+      onPlatformViewCreated: (_) => widget.onScanditCreated.call(_controller),
     );
   }
 }

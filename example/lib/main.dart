@@ -20,8 +20,8 @@ class ExampleScreen extends StatefulWidget {
 
 class _ExampleScreenState extends State<ExampleScreen> {
   String _message = '';
-  PermissionStatus _cameraPermissionsStatus = PermissionStatus.undetermined;
-  ScanditController _controller;
+  PermissionStatus? _cameraPermissionsStatus;
+  ScanditController? _controller;
 
   Future _requestCameraPermissions() async {
     var status = await Permission.camera.status;
@@ -44,7 +44,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => _requestCameraPermissions());
+    WidgetsBinding.instance!.addPostFrameCallback((_) => _requestCameraPermissions());
   }
 
   @override
@@ -79,9 +79,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
               padding: const EdgeInsets.all(8.0),
               child: FloatingActionButton(
                 backgroundColor: Colors.blue,
-                onPressed: () {
-                  _controller.stopCamera();
-                },
+                onPressed: () => _controller?.stopCamera(),
                 child: const Icon(Icons.stop),
               ),
             ),
@@ -92,9 +90,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
               padding: const EdgeInsets.all(8.0),
               child: FloatingActionButton(
                 backgroundColor: Colors.blue,
-                onPressed: () {
-                  _controller.startCamera();
-                },
+                onPressed: () => _controller?.startCamera(),
                 child: const Icon(Icons.play_arrow),
               ),
             ),
@@ -120,7 +116,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                _controller.resumeBarcodeScanning();
+                _controller?.resumeBarcodeScanning();
               },
               child: const Text('Continue'),
             ),

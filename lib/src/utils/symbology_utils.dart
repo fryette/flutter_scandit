@@ -34,7 +34,7 @@ class SymbologyUtils {
   /// get symbology string representation
   static String getSymbologyString(Symbology symbology) {
     if (_symbologyMap.containsKey(symbology)) {
-      return _symbologyMap[symbology];
+      return _symbologyMap[symbology]!;
     } else {
       return symbology.toString(); // fallback
     }
@@ -44,11 +44,10 @@ class SymbologyUtils {
   static Symbology getSymbology(String symbologyString) {
     if (_symbologyMap.containsValue(symbologyString)) {
       return _symbologyMap.entries
-          .firstWhere((MapEntry<Symbology, String> entry) =>
-              entry.value == symbologyString)
+          .firstWhere((MapEntry<Symbology, String> entry) => entry.value == symbologyString)
           .key;
     } else {
-      return null;
+      return Symbology.UNKNOWN;
     }
   }
 }
