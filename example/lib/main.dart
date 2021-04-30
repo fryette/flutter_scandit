@@ -113,11 +113,11 @@ class _ExampleScreenState extends State<ExampleScreen> {
           title: const Text('Barcode scanned'),
           content: Text('The barcode is ${result.data}'),
           actions: [
-            FlatButton(
+            TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: const Text('Stop'),
             ),
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 _controller.resumeBarcodeScanning();
