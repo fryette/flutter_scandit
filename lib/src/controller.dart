@@ -22,6 +22,7 @@ const String _callFromNativeUnforeseenError = "UNFORESEEN_ERROR";
 
 class ScanditController {
   static const MethodChannel _channel = MethodChannel('ScanditView');
+  bool _disposed = false;
 
   final void Function(BarcodeResult) _scanned;
   final void Function(BarcodeScanException) _onError;
@@ -33,14 +34,22 @@ class ScanditController {
   @mustCallSuper
   void dispose() {
     _channel.setMethodCallHandler(null);
+    _disposed = true;
   }
 
-  Future startCamera() {
-    return _channel.invokeMethod(_nativeMethodStartCameraAndCapturing);
+  Future<void> startCamera() async {
+    if (_disposed) return;
+    await _channel.invokeMethod(_nativeMethodStartCameraAndCapturing);
   }
 
-  Future stopCamera() {
-    return _channel.invokeMethod(_nativeMethodStopCameraAndCapturing);
+  Future<void> stopCamera() async {
+    if (_disposed) return;
+    await _channel.invokeMethod(_nativeMethodStopCameraAndCapturing);
+  }
+
+  Future<void> resumeBarcodeScanning() async {
+    if (_disposed) return;
+    await _channel.invokeMethod(_nativeMethodStartCapturing);
   }
 
   Future<dynamic> _handleCallFromNative(MethodCall call) async {
@@ -60,7 +69,7 @@ class ScanditController {
         break;
     }
 
-    _onError?.call(error);
+    _onError.call(error);
   }
 
   static BarcodeScanException _createExceptionByCode(String errorCode) {
@@ -80,14 +89,10 @@ class ScanditController {
     }
   }
 
-  Future resumeBarcodeScanning() async {
-    await _channel.invokeMethod(_nativeMethodStartCapturing);
-  }
-
   void _handleScan(Map<String, String> arguments) {
     _scanned(BarcodeResult(
-      data: arguments[_callFromNativeScanDataArgument],
-      symbology: SymbologyUtils.getSymbology(arguments[_callFromNativeScanSymbologyArgument]),
+      data: arguments[_callFromNativeScanDataArgument]!,
+      symbology: SymbologyUtils.getSymbology(arguments[_callFromNativeScanSymbologyArgument]!),
     ));
   }
 }

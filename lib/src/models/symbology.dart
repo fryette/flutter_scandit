@@ -27,4 +27,5 @@ enum Symbology {
   MICRO_QR,
   CODE32,
   LAPA4SC,
+  UNKNOWN,
 }
