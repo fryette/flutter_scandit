@@ -68,23 +68,25 @@ Add `Scandit` widget to the tree
 ```dart
 import 'package:flutter_scandit_plugin/flutter_scandit_plugin.dart';
 
-ScanditController _controller;
+ScanditController? _controller;
 
-Scandit(scanned: (result){
-          // handle scanned result here
-        },
-        onError: (e) {
-          // handle errors here
-        },
-        onScanditCreated: (controller) => _controller = controller,
-        licenseKey: INSERT YOUR KEY HERE);
-}
+Scandit(
+  scanned: (result) {
+    // handle scanned result here
+  },
+  onError: (e) {
+    // handle errors here
+  },
+  onScanditCreated: (controller) => _controller = controller,
+  licenseKey: '', // 'INSERT YOUR TEST KEY'
+)
+
 ```
 
-After successful scanning you need to manually execute continue scanning if needed:
+After a successful scan you need to manually resume scanning if needed:
 
 ```dart
-_controller.resumeBarcodeScanning();
+_controller?.resumeBarcodeScanning()
 ```
 
 ## Full Example
