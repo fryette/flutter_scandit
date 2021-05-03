@@ -14,6 +14,8 @@ import com.scandit.datacapture.barcode.data.Symbology;
 import com.scandit.datacapture.core.capture.DataCaptureContext;
 import com.scandit.datacapture.core.data.FrameData;
 import com.scandit.datacapture.core.source.Camera;
+import com.scandit.datacapture.core.source.CameraSettings;
+import com.scandit.datacapture.core.source.FocusGestureStrategy;
 import com.scandit.datacapture.core.source.FrameSourceState;
 import com.scandit.datacapture.core.ui.DataCaptureView;
 
@@ -119,9 +121,11 @@ public class ScanditView implements PlatformView, MethodChannel.MethodCallHandle
             // Use the default camera and set it as the frame source of the context.
             // The camera is off by default and must be turned on to start streaming frames to the data
             // capture context for recognition.
-            _camera = Camera.getDefaultCamera();
+            CameraSettings settings = BarcodeCapture.createRecommendedCameraSettings();
+            settings.setFocusGestureStrategy(FocusGestureStrategy.AUTO_ON_LOCATION);
+
+            _camera = Camera.getDefaultCamera(settings);
             if (_camera != null) {
-                _camera.applySettings(BarcodeCapture.createRecommendedCameraSettings());
                 _dataCaptureContext.setFrameSource(_camera);
             } else {
                 handleError(PlatformChannelConstants.ERROR_NO_CAMERA);
