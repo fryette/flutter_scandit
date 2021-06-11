@@ -1,3 +1,7 @@
+## 2.1.0
+
+Update scandit version to 6.8.0
+
 ## 2.0.0
 
 Migrate to null safety
