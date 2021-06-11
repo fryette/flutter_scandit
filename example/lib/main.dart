@@ -44,7 +44,8 @@ class _ExampleScreenState extends State<ExampleScreen> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _requestCameraPermissions());
+    WidgetsBinding.instance!
+        .addPostFrameCallback((_) => _requestCameraPermissions());
   }
 
   @override

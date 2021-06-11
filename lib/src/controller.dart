@@ -11,7 +11,8 @@ const String _errorNoCamera = "NO_CAMERA";
 const String _errorUnknown = "UNKNOWN_ERROR";
 
 const String _nativeMethodStopCameraAndCapturing = "STOP_CAMERA_AND_CAPTURING";
-const String _nativeMethodStartCameraAndCapturing = "START_CAMERA_AND_CAPTURING";
+const String _nativeMethodStartCameraAndCapturing =
+    "START_CAMERA_AND_CAPTURING";
 const String _nativeMethodStartCapturing = "START_CAPTURING";
 
 const String _callFromNativeScanResult = "SCANDIT_RESULT";
@@ -92,7 +93,8 @@ class ScanditController {
   void _handleScan(Map<String, String> arguments) {
     _scanned(BarcodeResult(
       data: arguments[_callFromNativeScanDataArgument]!,
-      symbology: SymbologyUtils.getSymbology(arguments[_callFromNativeScanSymbologyArgument]!),
+      symbology: SymbologyUtils.getSymbology(
+          arguments[_callFromNativeScanSymbologyArgument]!),
     ));
   }
 }

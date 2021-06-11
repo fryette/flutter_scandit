@@ -44,7 +44,8 @@ class SymbologyUtils {
   static Symbology getSymbology(String symbologyString) {
     if (_symbologyMap.containsValue(symbologyString)) {
       return _symbologyMap.entries
-          .firstWhere((MapEntry<Symbology, String> entry) => entry.value == symbologyString)
+          .firstWhere((MapEntry<Symbology, String> entry) =>
+              entry.value == symbologyString)
           .key;
     } else {
       return Symbology.UNKNOWN;

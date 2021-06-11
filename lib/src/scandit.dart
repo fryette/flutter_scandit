@@ -69,7 +69,8 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final arguments = {
       _licenseKey: widget.licenseKey,
-      _symbologies: widget.symbologies.map(SymbologyUtils.getSymbologyString).toList()
+      _symbologies:
+          widget.symbologies.map(SymbologyUtils.getSymbologyString).toList()
     };
 
     if (defaultTargetPlatform == TargetPlatform.android) {
