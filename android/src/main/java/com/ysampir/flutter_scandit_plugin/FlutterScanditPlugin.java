@@ -10,9 +10,7 @@ public class FlutterScanditPlugin implements FlutterPlugin {
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
         BinaryMessenger messenger = binding.getBinaryMessenger();
         binding
-            .getFlutterEngine()
-            .getPlatformViewsController()
-            .getRegistry()
+            .getPlatformViewRegistry()
             .registerViewFactory("ScanditPlatformView", new ScanditViewFactory(messenger));
     }
 
