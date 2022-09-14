@@ -12,8 +12,8 @@ class BarcodeScanException implements Exception {
   }
 }
 
-class MissingLicenceException extends BarcodeScanException {
-  MissingLicenceException([String? message]) : super(message);
+class MissingLicenseException extends BarcodeScanException {
+  MissingLicenseException([super.message]);
 
   @override
   String toString() {
@@ -22,7 +22,7 @@ class MissingLicenceException extends BarcodeScanException {
 }
 
 class CameraPermissionDeniedException extends BarcodeScanException {
-  CameraPermissionDeniedException([String? message]) : super(message);
+  CameraPermissionDeniedException([super.message]);
 
   @override
   String toString() {
@@ -31,7 +31,7 @@ class CameraPermissionDeniedException extends BarcodeScanException {
 }
 
 class CameraInitializationException extends BarcodeScanException {
-  CameraInitializationException([String? message]) : super(message);
+  CameraInitializationException([super.message]);
 
   @override
   String toString() {
@@ -40,7 +40,7 @@ class CameraInitializationException extends BarcodeScanException {
 }
 
 class NoCameraException extends BarcodeScanException {
-  NoCameraException([String? message]) : super(message);
+  NoCameraException([super.message]);
 
   @override
   String toString() {

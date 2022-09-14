@@ -1,3 +1,7 @@
+## 3.0.0
+
+Migrate to flutter 3
+
 ## 2.1.0
 
 Update scandit version to 6.8.0

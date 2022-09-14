@@ -2,10 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-
-import '../flutter_scandit_plugin.dart';
-import './models/index.dart';
-import './utils/symbology_utils.dart';
+import 'package:flutter_scandit_plugin/src/controller.dart';
+import 'package:flutter_scandit_plugin/src/models/index.dart';
+import 'package:flutter_scandit_plugin/src/utils/symbology_utils.dart';
 
 /// Make sure that you display this widget only after the app was granted the camera
 /// permissions from the user. You can use 'permission_handler' package or similar for this
@@ -21,13 +20,13 @@ class Scandit extends StatefulWidget {
   final void Function(ScanditController) onScanditCreated;
 
   const Scandit({
-    Key? key,
+    super.key,
     required this.licenseKey,
     required this.scanned,
     required this.onScanditCreated,
     required this.onError,
     this.symbologies = defaultSymbologies,
-  }) : super(key: key);
+  });
 
   @override
   _ScanditState createState() => _ScanditState();
@@ -42,13 +41,13 @@ class _ScanditState extends State<Scandit> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     _controller = ScanditController(widget.scanned, widget.onError);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
     super.dispose();
   }

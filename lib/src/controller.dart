@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-import './models/index.dart';
-import './utils/symbology_utils.dart';
+import 'package:flutter_scandit_plugin/src/models/index.dart';
+import 'package:flutter_scandit_plugin/src/utils/symbology_utils.dart';
 
 const String _errorNoLicence = "MISSING_LICENCE";
 const String _errorPermissionDenied = "CAMERA_PERMISSION_DENIED";
@@ -76,7 +76,7 @@ class ScanditController {
   static BarcodeScanException _createExceptionByCode(String errorCode) {
     switch (errorCode) {
       case _errorNoLicence:
-        return MissingLicenceException();
+        return MissingLicenseException();
       case _errorPermissionDenied:
         return CameraPermissionDeniedException();
       case _errorCameraInitialization:
@@ -91,10 +91,13 @@ class ScanditController {
   }
 
   void _handleScan(Map<String, String> arguments) {
-    _scanned(BarcodeResult(
-      data: arguments[_callFromNativeScanDataArgument]!,
-      symbology: SymbologyUtils.getSymbology(
-          arguments[_callFromNativeScanSymbologyArgument]!),
-    ));
+    _scanned(
+      BarcodeResult(
+        data: arguments[_callFromNativeScanDataArgument]!,
+        symbology: SymbologyUtils.getSymbology(
+          arguments[_callFromNativeScanSymbologyArgument]!,
+        ),
+      ),
+    );
   }
 }
