@@ -1,22 +1,22 @@
 name: flutter_scandit_example
 description: Demonstrates how to use the flutter_scandit plugin.
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  flutter_scandit_plugin:
+    path: ../
   permission_handler: ^7.1.0
 
 dev_dependencies:
-  flutter_scandit_plugin:
-    path: ../
   flutter_test:
     sdk: flutter
-  lint: ^1.5.3
+  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true

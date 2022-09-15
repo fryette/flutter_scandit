@@ -1,5 +1,6 @@
-import '../models/symbology.dart';
+import 'package:flutter_scandit_plugin/src/models/symbology.dart';
 
+// ignore_for_file: avoid_classes_with_only_static_members
 /// Simple utilities for dealing with symbology
 class SymbologyUtils {
   static const Map<Symbology, String> _symbologyMap = {
@@ -44,8 +45,10 @@ class SymbologyUtils {
   static Symbology getSymbology(String symbologyString) {
     if (_symbologyMap.containsValue(symbologyString)) {
       return _symbologyMap.entries
-          .firstWhere((MapEntry<Symbology, String> entry) =>
-              entry.value == symbologyString)
+          .firstWhere(
+            (MapEntry<Symbology, String> entry) =>
+                entry.value == symbologyString,
+          )
           .key;
     } else {
       return Symbology.UNKNOWN;

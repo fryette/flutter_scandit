@@ -1,4 +1,4 @@
-import 'symbology.dart';
+import 'package:flutter_scandit_plugin/src/models/symbology.dart';
 
 class BarcodeResult {
   /// actual data which was encoded in the barcode
