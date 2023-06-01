@@ -1,3 +1,9 @@
+> **_Repository no longer maintained, please switch to official plugin from Scandit._**
+
+- Documentation: https://docs.scandit.com/data-capture-sdk/flutter/
+- Pub.dev: https://pub.dev/publishers/scandit.com/packages
+- GitHub: https://github.com/Scandit/datacapture-flutter-samples
+
 <p align="center">
     <img src="https://github.com/fryette/flutter_scandit/blob/master/assets/scandit_logo.png" width="50%" alt="logo" />
   <h2 align="center">
